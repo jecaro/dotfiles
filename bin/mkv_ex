@@ -1,0 +1,1 @@
+mkvmerge -o The\ Lego\ Movie.mkv The.Lego.Movie.2014.720p.BluRay.x264.YIFY.mp4 --sub-charset 0:ISO-8859-15 LEGO\ MOVIE.srt
