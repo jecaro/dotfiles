@@ -43,3 +43,9 @@ set ttymouse=xterm2
 
 " 4 espaces pour la tabulation
 set tabstop=4
+
+" Menu pour la completion
+set wildchar=<Tab> wildmenu wildmode=full
+" F10 ouvre le menu de buffer
+set wildcharm=<C-Z>
+nnoremap <F10> :b <C-Z>
