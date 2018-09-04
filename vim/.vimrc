@@ -57,3 +57,7 @@ set wildchar=<Tab> wildmenu wildmode=full
 " F10 ouvre le menu de buffer
 set wildcharm=<C-Z>
 nnoremap <F10> :b <C-Z>
+
+" Pour fermer un buffer sans changer le layout de fenetre
+map <leader>q :bp<bar>sp<bar>bn<bar>bd<CR>
+
