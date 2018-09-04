@@ -1,5 +1,8 @@
 " Pour windows
-set runtimepath+=~/.vim
+if has('win32')
+	set runtimepath+=~/.vim
+	let $PATH .= ';C:\Program Files\Git\bin'
+endif
 " Pathogen configuration
 runtime bundle/vim-pathogen/autoload/pathogen.vim
 call pathogen#infect()
