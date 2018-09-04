@@ -12,4 +12,4 @@
 	url = https://github.com/itchyny/lightline.vim
 [submodule "vim/.vim/bundle/vim-fugitive"]
 	path = vim/.vim/bundle/vim-fugitive
-	url = git://github.com/tpope/vim-fugitive.git
+	url = https://github.com/tpope/vim-fugitive.git
