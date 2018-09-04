@@ -7,7 +7,9 @@
 
 alias ls='ls --color=auto'
 alias vi=vim
-PS1='[\u@\h \W]\$ '
+
+source /usr/share/git/completion/git-prompt.sh
+PS1='[\u@\h \W$(__git_ps1 " (%s)")]\$ '
 
 export LC_ALL=en_US.UTF-8
 
