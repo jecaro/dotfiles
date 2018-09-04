@@ -28,7 +28,7 @@ endif
 source $VIMRUNTIME/vimrc_example.vim
 
 " Un background sombre
-colorscheme torte
+colorscheme gruvbox
 
 " Pour maintenir l'affichage de la barre
 set laststatus=2
