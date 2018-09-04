@@ -1,3 +1,5 @@
+" Pour windows
+set runtimepath+=~/.vim
 " Pathogen configuration
 runtime bundle/vim-pathogen/autoload/pathogen.vim
 call pathogen#infect()
