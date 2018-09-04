@@ -22,6 +22,12 @@ if has('win32')
 	set guioptions-=T  "remove toolbar
 	set guioptions-=r  "remove right-hand scroll bar
 	set guioptions-=L  "remove left-hand scroll bar
+
+	" Encoding et police pour windows
+	set enc=utf-8
+	set fileencoding=utf-8
+	set fileencodings=ucs-bom,utf8,latin
+	set guifont=Consolas:h11
 endif
 
 " Chargement des options par default
