@@ -29,6 +29,7 @@ source $VIMRUNTIME/vimrc_example.vim
 
 " Un background sombre
 colorscheme gruvbox
+set background=dark
 
 " Pour maintenir l'affichage de la barre
 set laststatus=2
