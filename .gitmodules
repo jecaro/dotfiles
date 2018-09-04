@@ -19,3 +19,6 @@
 [submodule "vim/.vim/bundle/gruvbox"]
 	path = vim/.vim/bundle/gruvbox
 	url = https://github.com/morhetz/gruvbox.git
+[submodule "vim/.vim/bundle/qmake-syntax-vim"]
+	path = vim/.vim/bundle/qmake-syntax-vim
+	url = https://github.com/artoj/qmake-syntax-vim
