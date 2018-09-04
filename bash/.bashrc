@@ -8,8 +8,12 @@
 alias ls='ls --color=auto'
 alias vi=vim
 
-source /usr/share/git/completion/git-prompt.sh
-PS1='[\u@\h \W$(__git_ps1 " (%s)")]\$ '
+if [ "$OS" == "Windows_NT" ]; then
+	PS1='[\u@\h \W]\$ '
+else
+	source /usr/share/git/completion/git-prompt.sh
+	PS1='[\u@\h \W$(__git_ps1 " (%s)")]\$ '
+fi
 
 export LC_ALL=en_US.UTF-8
 
