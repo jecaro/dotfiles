@@ -49,6 +49,8 @@ set ttymouse=xterm2
 
 " 4 espaces pour la tabulation
 set tabstop=4
+" Un seul tab pour l'autoindent
+set shiftwidth=4
 
 " Menu pour la completion
 set wildchar=<Tab> wildmenu wildmode=full
