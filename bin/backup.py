@@ -17,7 +17,8 @@ def main(argv):
     dir_to_save = argv[1]
     backup_dir = argv[2]
 
-    if not os.path.isdir(dir_to_save):
+    # On regarde si le dossier existe lorsqu'on ne travaille pas en ssh
+    if '@' not in dir_to_save and not os.path.isdir(dir_to_save):
         print(dir_to_save + ' is not a directory')
         return
 
@@ -25,7 +26,13 @@ def main(argv):
         print(backup_dir + ' is not a directory')
         return
 
-    dir_to_save = os.path.abspath(dir_to_save) + '/'
+    # On prend le chemin absolu si on n'est pas en ssh
+    if '@' not in dir_to_save:
+        dir_to_save = os.path.abspath(dir_to_save) + '/'
+    # On rajoute un slash si besoin
+    elif not dir_to_save.endswith('/'):
+        dir_to_save = dir_to_save + '/'
+
     backup_dir = os.path.abspath(backup_dir) + '/'
 
     log_filename = backup_dir + 'LOG'
@@ -65,6 +72,7 @@ def main(argv):
     cmd.append(new_dir)
 
     # Launch the command
+    print(cmd)
     subprocess.call(cmd)
 
 if __name__ == "__main__":
