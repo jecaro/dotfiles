@@ -1,9 +1,0 @@
-let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =7
-let g:netrw_dirhist_1='/home/jc/.ncmpcpp'
-let g:netrw_dirhist_2='/home/jc/.mpd'
-let g:netrw_dirhist_3='/home/jc/Downloads/The Secret of Monkey Island - Ultimate Talkie Edition/The Secret of Monkey Island - Ultimate Talkie Edition/bin'
-let g:netrw_dirhist_4='/home/jc/Downloads/The Secret of Monkey Island - Ultimate Talkie Edition/The Secret of Monkey Island - Ultimate Talkie Edition'
-let g:netrw_dirhist_5='/home/jc/.config/transmission-daemon'
-let g:netrw_dirhist_6='/home/jc/.config/transmission'
-let g:netrw_dirhist_7='/home/jc/.config/transmission-daemon'
