@@ -3,12 +3,6 @@ if has('win32')
 	set runtimepath+=~/.vim
 endif
 
-" Pathogen configuration
-runtime bundle/vim-pathogen/autoload/pathogen.vim
-call pathogen#infect()
-" Creation de la doc pour les plugins
-call pathogen#helptags()
-
 " Pour windows
 if has('win32')
 	" Pour que fugitive fonctionne
@@ -34,7 +28,7 @@ endif
 source $VIMRUNTIME/vimrc_example.vim
 
 " Un background sombre
-colorscheme gruvbox
+" colorscheme gruvbox
 set background=dark
 
 " Pour maintenir l'affichage de la barre
