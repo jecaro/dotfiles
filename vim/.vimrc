@@ -1,7 +1,16 @@
-" Sous windows pour trouver pathogen
+" Sous windows pour trouver -> TODO voir si c'est nécessaire de la garder
 if has('win32')
 	set runtimepath+=~/.vim
 endif
+
+call plug#begin('~/.vim/plugged')
+Plug 'tpope/vim-fugitive'
+Plug 'scrooloose/nerdtree'
+Plug 'itchyny/lightline.vim'
+Plug 'vim-airline/vim-airline'
+Plug 'morhetz/gruvbox'
+Plug 'ap/vim-buftabline'
+call plug#end()
 
 " Pour windows
 if has('win32')
@@ -28,7 +37,7 @@ endif
 source $VIMRUNTIME/vimrc_example.vim
 
 " Un background sombre
-" colorscheme gruvbox
+colorscheme gruvbox
 set background=dark
 
 " Pour maintenir l'affichage de la barre
