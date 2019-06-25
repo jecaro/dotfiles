@@ -14,6 +14,7 @@ Plug 'autozimu/LanguageClient-neovim', {
     \ 'branch': 'next',
     \ 'do': 'bash install.sh',
     \ }
+Plug 'w0rp/ale'
 call plug#end()
 
 " Pour windows
@@ -38,7 +39,9 @@ if has('win32')
 endif
 
 " Chargement des options par default
-source $VIMRUNTIME/vimrc_example.vim
+if !has('nvim')
+	source $VIMRUNTIME/vimrc_example.vim
+endif
 
 " Un background sombre
 colorscheme gruvbox
@@ -52,7 +55,9 @@ set hidden
 
 " Support de la souris en console
 set mouse=a
-set ttymouse=xterm2
+if !has('nvim')
+	set ttymouse=xterm2
+endif
 
 " 4 espaces pour la tabulation
 set tabstop=4
