@@ -10,11 +10,9 @@ Plug 'itchyny/lightline.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'morhetz/gruvbox'
 Plug 'ap/vim-buftabline'
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
 Plug 'w0rp/ale'
+Plug 'neovimhaskell/haskell-vim'
+Plug 'ndmitchell/ghcid', { 'rtp': 'plugins/nvim' }
 call plug#end()
 
 " Pour windows
@@ -73,22 +71,12 @@ nnoremap <F10> :b <C-Z>
 " Pour fermer un buffer sans changer le layout de fenetre
 map <leader>q :bp<bar>sp<bar>bn<bar>bd<CR>
 
-" Pour HIE
-set rtp+=~/.vim/plugged/LanguageClient-neovim
-let g:LanguageClient_serverCommands = { 'haskell': ['hie-wrapper'] }
+" Pour haskell-vim
+syntax on
+filetype plugin indent on
 
-nnoremap <F5> :call LanguageClient_contextMenu()<CR>
-map <Leader>lk :call LanguageClient#textDocument_hover()<CR>
-map <Leader>lg :call LanguageClient#textDocument_definition()<CR>
-map <Leader>lr :call LanguageClient#textDocument_rename()<CR>
-map <Leader>lf :call LanguageClient#textDocument_formatting()<CR>
-map <Leader>lb :call LanguageClient#textDocument_references()<CR>
-map <Leader>la :call LanguageClient#textDocument_codeAction()<CR>
-map <Leader>ls :call LanguageClient#textDocument_documentSymbol()<CR>
-
-hi link ALEError Error
-hi Warning term=underline cterm=underline ctermfg=Yellow gui=undercurl guisp=Gold
-hi link ALEWarning Warning
-hi link ALEInfo SpellCap
-
-let g:LanguageClient_rootMarkers = ['*.cabal', 'stack.yaml']
+" Pour fast-tags
+augroup tags
+au BufWritePost *.hs            silent !init-tags %
+au BufWritePost *.hsc           silent !init-tags %
+augroup END
