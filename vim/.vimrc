@@ -13,6 +13,8 @@ Plug 'ap/vim-buftabline'
 Plug 'w0rp/ale'
 Plug 'neovimhaskell/haskell-vim'
 Plug 'ndmitchell/ghcid', { 'rtp': 'plugins/nvim' }
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'mhinz/vim-grepper'
 call plug#end()
 
 " Pour windows
@@ -80,3 +82,7 @@ augroup tags
 au BufWritePost *.hs            silent !init-tags %
 au BufWritePost *.hsc           silent !init-tags %
 augroup END
+
+" Pour Grepper
+nnoremap <leader>ga :Grepper<cr>
+nnoremap <leader>gb :Grepper -buffer<cr>
