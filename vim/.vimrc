@@ -86,3 +86,6 @@ augroup END
 " Pour Grepper
 nnoremap <leader>ga :Grepper<cr>
 nnoremap <leader>gb :Grepper -buffer<cr>
+
+" Pour ALE, on ne garde que hlint
+let g:ale_linters = { 'haskell': ['hlint'] }
