@@ -1,6 +1,6 @@
 " Sous windows pour trouver -> TODO voir si c'est nécessaire de la garder
 if has('win32')
-	set runtimepath+=~/.vim
+    set runtimepath+=~/.vim
 endif
 
 call plug#begin('~/.vim/plugged')
@@ -19,28 +19,28 @@ call plug#end()
 
 " Pour windows
 if has('win32')
-	" Pour que fugitive fonctionne
-	let $PATH .= ';C:\Program Files\Git\bin'
+    " Pour que fugitive fonctionne
+    let $PATH .= ';C:\Program Files\Git\bin'
 
-	" Copie directement vers le clipboard de windows
-	set clipboard=unnamed
+    " Copie directement vers le clipboard de windows
+    set clipboard=unnamed
 
-	" On vire tous les widgets
-	set guioptions-=m  "remove menu bar
-	set guioptions-=T  "remove toolbar
-	set guioptions-=r  "remove right-hand scroll bar
-	set guioptions-=L  "remove left-hand scroll bar
+    " On vire tous les widgets
+    set guioptions-=m  "remove menu bar
+    set guioptions-=T  "remove toolbar
+    set guioptions-=r  "remove right-hand scroll bar
+    set guioptions-=L  "remove left-hand scroll bar
 
-	" Encoding et police pour windows
-	set enc=utf-8
-	set fileencoding=utf-8
-	set fileencodings=ucs-bom,utf8,latin
-	set guifont=Consolas:h11
+    " Encoding et police pour windows
+    set enc=utf-8
+    set fileencoding=utf-8
+    set fileencodings=ucs-bom,utf8,latin
+    set guifont=Consolas:h11
 endif
 
 " Chargement des options par default
 if !has('nvim')
-	source $VIMRUNTIME/vimrc_example.vim
+    source $VIMRUNTIME/vimrc_example.vim
 endif
 
 " Un background sombre
@@ -56,11 +56,13 @@ set hidden
 " Support de la souris en console
 set mouse=a
 if !has('nvim')
-	set ttymouse=xterm2
+    set ttymouse=xterm2
 endif
 
 " 4 espaces pour la tabulation
 set tabstop=4
+" On utilise des espaces à la place des tabulation
+set expandtab
 " Un seul tab pour l'autoindent
 set shiftwidth=4
 
