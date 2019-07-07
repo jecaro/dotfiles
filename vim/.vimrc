@@ -47,8 +47,12 @@ endif
 colorscheme gruvbox
 set background=dark
 
-" Pour maintenir l'affichage de la barre
+" Show line number
+set nu
+
+" Airline configuration
 set laststatus=2
+let g:airline_powerline_fonts=1
 
 " Pour pouvoir switcher de buffer sans sauvegarder
 set hidden
@@ -58,6 +62,9 @@ set mouse=a
 if !has('nvim')
     set ttymouse=xterm2
 endif
+
+" Set leader key as space
+let mapleader=" "
 
 " 4 espaces pour la tabulation
 set tabstop=4
@@ -79,6 +86,14 @@ map <leader>q :bp<bar>sp<bar>bn<bar>bd<CR>
 syntax on
 filetype plugin indent on
 
+" Highlights search results as you type vs after you press Enter
+set incsearch
+" Ignore case when searching
+set ignorecase
+set smartcase 
+" Turns search highlighting on
+set hlsearch
+
 " Pour fast-tags
 augroup tags
 au BufWritePost *.hs            silent !init-tags %
@@ -91,3 +106,4 @@ nnoremap <leader>gb :Grepper -buffer<cr>
 
 " Pour ALE, on ne garde que hlint
 let g:ale_linters = { 'haskell': ['hlint'] }
+let g:ale_fixers = { 'haskell': ['hlint'] }
