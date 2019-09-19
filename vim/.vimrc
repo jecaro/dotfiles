@@ -9,12 +9,12 @@ Plug 'scrooloose/nerdtree'
 Plug 'itchyny/lightline.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'morhetz/gruvbox'
-Plug 'ap/vim-buftabline'
 Plug 'w0rp/ale'
 Plug 'neovimhaskell/haskell-vim'
 Plug 'ndmitchell/ghcid', { 'rtp': 'plugins/nvim' }
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'mhinz/vim-grepper'
+Plug 'christoomey/vim-tmux-navigator'
 call plug#end()
 
 " Pour windows
@@ -49,10 +49,12 @@ set background=dark
 
 " Show line number
 set nu
+set colorcolumn=80
 
 " Airline configuration
 set laststatus=2
 let g:airline_powerline_fonts=1
+let g:airline#extensions#tabline#enabled = 1
 
 " Pour pouvoir switcher de buffer sans sauvegarder
 set hidden
@@ -78,6 +80,14 @@ set wildchar=<Tab> wildmenu wildmode=full
 " F10 ouvre le menu de buffer
 set wildcharm=<C-Z>
 nnoremap <F10> :b <C-Z>
+
+" tmux navigator
+let g:tmux_navigator_no_mappings = 1
+nnoremap <silent> <c-left>  :TmuxNavigateLeft<cr>
+nnoremap <silent> <c-down>  :TmuxNavigateDown<cr>
+nnoremap <silent> <c-up>    :TmuxNavigateUp<cr>
+nnoremap <silent> <c-right> :TmuxNavigateRight<cr>
+"nnoremap <silent> {Previous-Mapping} :TmuxNavigatePrevious<cr>
 
 " Pour fermer un buffer sans changer le layout de fenetre
 map <leader>q :bp<bar>sp<bar>bn<bar>bd<CR>
