@@ -99,9 +99,16 @@ filetype plugin indent on
 set incsearch
 " Ignore case when searching
 set ignorecase
-set smartcase 
+set smartcase
 " Turns search highlighting on
 set hlsearch
+" Highlight end of line
+highlight ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
+autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
+autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+autocmd BufWinLeave * call clearmatches()
 
 " Pour fast-tags
 augroup tags
