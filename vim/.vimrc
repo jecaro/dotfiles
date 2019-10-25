@@ -48,7 +48,7 @@ set background=dark
 
 " Show line number
 set nu
-set colorcolumn=80
+set colorcolumn=81
 
 " Airline configuration
 set laststatus=2
