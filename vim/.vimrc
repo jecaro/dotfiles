@@ -116,9 +116,12 @@ au BufWritePost *.hs            silent !init-tags %
 au BufWritePost *.hsc           silent !init-tags %
 augroup END
 
-" Pour Grepper
-nnoremap <leader>ga :Grepper<cr>
-nnoremap <leader>gb :Grepper -buffer<cr>
+" For Grepper
+nnoremap <leader>g :Grepper -tool git<cr>
+nnoremap <leader>G :Grepper -tool ag<cr>
+
+nmap gs <plug>(GrepperOperator)
+xmap gs <plug>(GrepperOperator)
 
 " Pour ALE, on ne garde que hlint
 let g:ale_linters = { 'haskell': ['hlint'] }
