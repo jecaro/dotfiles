@@ -58,6 +58,8 @@ nnoremap <silent> <c-right> :TmuxNavigateRight<cr>
 " To close a buffer without changin the layout. Usefull when NERDTree is
 " opened
 map <leader>q :bp<bar>sp<bar>bn<bar>bd<CR>
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
 
 " For haskell-vim
 syntax on
