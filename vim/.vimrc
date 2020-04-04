@@ -1,8 +1,8 @@
 " Plugins setup
 call plug#begin('~/.vim/plugged')
+Plug 'andys8/vim-elm-syntax'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'elmcast/elm-vim'
 Plug 'mhinz/vim-grepper'
 Plug 'morhetz/gruvbox'
 Plug 'ndmitchell/ghcid', { 'rtp': 'plugins/nvim' }
