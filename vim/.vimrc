@@ -1,15 +1,16 @@
-" Pugins setup
+" Plugins setup
 call plug#begin('~/.vim/plugged')
-Plug 'tpope/vim-fugitive'
-Plug 'scrooloose/nerdtree'
-Plug 'vim-airline/vim-airline'
-Plug 'morhetz/gruvbox'
-Plug 'w0rp/ale'
-Plug 'neovimhaskell/haskell-vim'
-Plug 'ndmitchell/ghcid', { 'rtp': 'plugins/nvim' }
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'mhinz/vim-grepper'
 Plug 'christoomey/vim-tmux-navigator'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'elmcast/elm-vim'
+Plug 'mhinz/vim-grepper'
+Plug 'morhetz/gruvbox'
+Plug 'ndmitchell/ghcid', { 'rtp': 'plugins/nvim' }
+Plug 'neovimhaskell/haskell-vim'
+Plug 'scrooloose/nerdtree'
+Plug 'tpope/vim-fugitive'
+Plug 'vim-airline/vim-airline'
+Plug 'w0rp/ale'
 call plug#end()
 
 " A good color scheme
