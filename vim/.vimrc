@@ -19,6 +19,7 @@ set background=dark
 
 " Show line numbers
 set nu
+set relativenumber
 set colorcolumn=81
 
 " Airline configuration
@@ -97,5 +98,5 @@ nmap gs <plug>(GrepperOperator)
 xmap gs <plug>(GrepperOperator)
 
 " For ALE
-let g:ale_linters = { 'haskell': ['hlint'] }
+let g:ale_linters = { 'haskell': ['hlint', 'ghcide'] }
 let g:ale_fixers = { 'haskell': ['hlint'] }
