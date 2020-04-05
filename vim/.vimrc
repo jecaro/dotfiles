@@ -22,19 +22,11 @@ set nu
 set relativenumber
 set colorcolumn=81
 
-" Airline configuration
-set laststatus=2
-let g:airline_powerline_fonts=1
-let g:airline#extensions#tabline#enabled = 1
-
 " To be able to switch buffer without saving
 set hidden
 
 " Add mouse support in console mode
 set mouse=a
-
-" Set leader key as space
-let mapleader=" "
 
 " 4 spaces is good
 set tabstop=4
@@ -43,11 +35,37 @@ set expandtab
 " One tab makes 4 spaces
 set shiftwidth=4
 
+" Highlights search results as you type vs after you press Enter
+set incsearch
+" Ignore case when searching
+set ignorecase
+set smartcase
+" Turns search highlighting on
+set hlsearch
+" Highlight end of line
+highlight ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
+autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
+autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+autocmd BufWinLeave * call clearmatches()
+
+" Set leader key as space
+let mapleader=" "
+
 " Menu for completion
 set wildchar=<Tab> wildmenu wildmode=full
 " F10 open the buffer menu
 set wildcharm=<C-Z>
 nnoremap <F10> :b <C-Z>
+
+" F5 delete all the trailing whitespaces
+nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
+
+" Airline configuration
+set laststatus=2
+let g:airline_powerline_fonts=1
+let g:airline#extensions#tabline#enabled = 1
 
 " tmux navigator
 let g:tmux_navigator_no_mappings = 1
@@ -66,24 +84,6 @@ autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in
 " For haskell-vim
 syntax on
 filetype plugin indent on
-
-" Highlights search results as you type vs after you press Enter
-set incsearch
-" Ignore case when searching
-set ignorecase
-set smartcase
-" Turns search highlighting on
-set hlsearch
-" Highlight end of line
-highlight ExtraWhitespace ctermbg=red guibg=red
-match ExtraWhitespace /\s\+$/
-autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
-autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
-autocmd InsertLeave * match ExtraWhitespace /\s\+$/
-autocmd BufWinLeave * call clearmatches()
-
-" F5 delete all the trailing whitespaces
-nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 
 " For fast-tags
 augroup tags
