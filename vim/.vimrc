@@ -70,14 +70,6 @@ let g:airline#extensions#tabline#enabled = 1
 " For vimgutter
 let updatetime=100
 
-" tmux navigator
-let g:tmux_navigator_no_mappings = 1
-nnoremap <silent> <c-left>  :TmuxNavigateLeft<cr>
-nnoremap <silent> <c-down>  :TmuxNavigateDown<cr>
-nnoremap <silent> <c-up>    :TmuxNavigateUp<cr>
-nnoremap <silent> <c-right> :TmuxNavigateRight<cr>
-"nnoremap <silent> {Previous-Mapping} :TmuxNavigatePrevious<cr>
-
 " To close a buffer without changin the layout. Usefull when NERDTree is
 " opened
 map <leader>q :bp<bar>sp<bar>bn<bar>bd<CR>
