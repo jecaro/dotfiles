@@ -3,7 +3,6 @@ call plug#begin('~/.vim/plugged')
 Plug 'andys8/vim-elm-syntax'
 Plug 'airblade/vim-gitgutter'
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'ctrlpvim/ctrlp.vim'
 Plug 'mhinz/vim-grepper'
 Plug 'morhetz/gruvbox'
 Plug 'ndmitchell/ghcid', { 'rtp': 'plugins/nvim' }
