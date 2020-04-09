@@ -1,6 +1,7 @@
 " Plugins setup
 call plug#begin('~/.vim/plugged')
 Plug 'andys8/vim-elm-syntax'
+Plug 'airblade/vim-gitgutter'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'mhinz/vim-grepper'
@@ -66,6 +67,9 @@ nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 set laststatus=2
 let g:airline_powerline_fonts=1
 let g:airline#extensions#tabline#enabled = 1
+
+" For vimgutter
+let updatetime=100
 
 " tmux navigator
 let g:tmux_navigator_no_mappings = 1
