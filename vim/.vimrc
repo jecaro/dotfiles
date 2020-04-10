@@ -75,6 +75,9 @@ let updatetime=100
 map <leader>q :bp<bar>sp<bar>bn<bar>bd<CR>
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
+" Keys from NERDTree clashes with tmux-navigator so turn them off
+let g:NERDTreeMapJumpPrevSibling=""
+let g:NERDTreeMapJumpNextSibling=""
 
 " For haskell-vim
 syntax on
