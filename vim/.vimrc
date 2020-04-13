@@ -1,7 +1,7 @@
 " Plugins setup
 call plug#begin('~/.vim/plugged')
-Plug 'andys8/vim-elm-syntax'
 Plug 'airblade/vim-gitgutter'
+Plug 'andys8/vim-elm-syntax'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'mhinz/vim-grepper'
 Plug 'morhetz/gruvbox'
@@ -9,6 +9,8 @@ Plug 'ndmitchell/ghcid', { 'rtp': 'plugins/nvim' }
 Plug 'neovimhaskell/haskell-vim'
 Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
 Plug 'vim-airline/vim-airline'
 Plug 'w0rp/ale'
 call plug#end()
