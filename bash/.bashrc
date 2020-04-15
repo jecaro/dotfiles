@@ -7,9 +7,14 @@
 
 alias ls='ls --color=auto'
 
-# nvim settup
-alias vi=nvim
-export EDITOR=nvim
+# Setup editor
+if ! type nvim > /dev/null 2>&1; then
+    alias vi=vim
+else
+    alias vi=nvim
+fi
+
+export EDITOR=vi
 
 # Prompt completion for git
 if [ -f /usr/share/git/completion/git-prompt.sh ]; then
