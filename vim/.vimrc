@@ -84,6 +84,7 @@ let g:NERDTreeMapJumpNextSibling=""
 " For haskell-vim
 syntax on
 filetype plugin indent on
+let g:haskell_indent_in = 0
 
 " For fast-tags
 augroup tags
