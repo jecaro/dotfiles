@@ -80,6 +80,7 @@ autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in
 " Keys from NERDTree clashes with tmux-navigator so turn them off
 let g:NERDTreeMapJumpPrevSibling=""
 let g:NERDTreeMapJumpNextSibling=""
+map <leader>n :NERDTreeToggle<cr>
 
 " For haskell-vim
 syntax on
