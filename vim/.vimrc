@@ -37,6 +37,11 @@ set expandtab
 " One tab makes 4 spaces
 set shiftwidth=4
 
+" Turn on syntax highlight
+syntax on
+" Activate plugin for specific filetype and indentation
+filetype plugin indent on
+
 " Highlights search results as you type vs after you press Enter
 set incsearch
 " Ignore case when searching
@@ -83,8 +88,6 @@ let g:NERDTreeMapJumpNextSibling=""
 map <leader>n :NERDTreeToggle<cr>
 
 " For haskell-vim
-syntax on
-filetype plugin indent on
 let g:haskell_indent_in = 0
 
 " For fast-tags
@@ -100,5 +103,6 @@ nmap gs <plug>(GrepperOperator)
 xmap gs <plug>(GrepperOperator)
 
 " For ALE
-let g:ale_linters = { 'haskell': ['hlint', 'ghcide'] }
+let g:ale_linters = { 'haskell': ['hlint'] }
 let g:ale_fixers = { 'haskell': ['hlint'] }
+
