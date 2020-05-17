@@ -5,6 +5,16 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+# Setup locale
+if locale -a | grep ^en_US.UTF-8 ; then
+	export LC_ALL=en_US.UTF-8
+elif locale -a | grep ^C.UTF-8 ; then
+	export LC_ALL=C.UTF-8
+# For CentOS 3.10
+elif locale -a | grep ^en_US.utf8 ; then
+	export LC_ALL=en_US.utf8
+fi
+
 alias ls='ls --color=auto'
 
 # Setup editor
@@ -26,12 +36,6 @@ if [ "$(type -t __git_ps1)" = 'function' ]; then
 	PS1='[\u@\h \W$(__git_ps1 " (%s)")]\$ '
 else
 	PS1='[\u@\h \W]\$ '
-fi
-
-if locale -a | grep ^en_US.UTF-8 ; then
-	export LC_ALL=en_US.UTF-8
-elif locale -a | grep ^C.UTF-8 ; then
-	export LC_ALL=C.UTF-8
 fi
 
 # For resize to work propertly
