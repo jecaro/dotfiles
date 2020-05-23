@@ -86,7 +86,7 @@ autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in
 let g:NERDTreeMapJumpPrevSibling=""
 let g:NERDTreeMapJumpNextSibling=""
 map <leader>n :NERDTreeToggle<cr>
-
+let NERDTreeQuitOnOpen=1
 " For haskell-vim
 let g:haskell_indent_in = 0
 
