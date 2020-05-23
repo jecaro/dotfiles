@@ -108,10 +108,7 @@ let g:ale_fix_on_save = 1
 " Function to run fourmolu on the buffer
 function! Fourmolu(buffer) abort
     return {
-    \   'command': 'fourmolu'
-    \       . ' -m'
-    \       . 'inplace'
-    \       . ' %t',
+    \   'command': 'fourmolu -o -XTypeApplications -m inplace %t',
     \   'read_temporary_file': 1,
     \}
 endfunction
