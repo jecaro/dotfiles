@@ -87,8 +87,6 @@ let g:NERDTreeMapJumpPrevSibling=""
 let g:NERDTreeMapJumpNextSibling=""
 map <leader>n :NERDTreeToggle<cr>
 let NERDTreeQuitOnOpen=1
-" For haskell-vim
-let g:haskell_indent_in = 0
 
 " For fast-tags
 augroup tags
@@ -104,5 +102,17 @@ xmap gs <plug>(GrepperOperator)
 
 " For ALE
 let g:ale_linters = { 'haskell': ['hlint'] }
-let g:ale_fixers = { 'haskell': ['hlint'] }
+let g:ale_fixers = { 'haskell': ['Fourmolu'] }
+let g:ale_fix_on_save = 1
+
+" Function to run fourmolu on the buffer
+function! Fourmolu(buffer) abort
+    return {
+    \   'command': 'fourmolu'
+    \       . ' -m'
+    \       . 'inplace'
+    \       . ' %t',
+    \   'read_temporary_file': 1,
+    \}
+endfunction
 
