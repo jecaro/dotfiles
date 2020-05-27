@@ -6,12 +6,12 @@
 [[ $- != *i* ]] && return
 
 # Setup locale
-if locale -a | grep ^en_US.UTF-8 ; then
+if locale -a | grep ^en_US.UTF-8 > /dev/null; then
 	export LC_ALL=en_US.UTF-8
-elif locale -a | grep ^C.UTF-8 ; then
+elif locale -a | grep ^C.UTF-8 > /dev/null; then
 	export LC_ALL=C.UTF-8
 # For CentOS 3.10
-elif locale -a | grep ^en_US.utf8 ; then
+elif locale -a | grep ^en_US.utf8 > /dev/null; then
 	export LC_ALL=en_US.utf8
 fi
 
