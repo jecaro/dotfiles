@@ -3,17 +3,25 @@ call plug#begin('~/.vim/plugged')
 Plug 'airblade/vim-gitgutter'
 Plug 'andys8/vim-elm-syntax'
 Plug 'christoomey/vim-tmux-navigator'
+Plug 'justinmk/vim-dirvish'
 Plug 'mhinz/vim-grepper'
 Plug 'morhetz/gruvbox'
 Plug 'ndmitchell/ghcid', { 'rtp': 'plugins/nvim' }
 Plug 'neovimhaskell/haskell-vim'
-Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'vim-airline/vim-airline'
 Plug 'w0rp/ale'
 call plug#end()
+
+" Disable netrw
+let g:loaded_netrwPlugin = 1
+" For dirvish
+" Sort directory first then files
+let g:dirvish_mode = ':sort ,^.*[\/],'
+" Hide hidden files
+autocmd FileType dirvish silent keeppatterns g@\v/\.[^\/]+/?$@d _
 
 " A good color scheme
 colorscheme gruvbox
@@ -76,17 +84,6 @@ let g:airline#extensions#tabline#enabled = 1
 
 " For vimgutter
 let updatetime=100
-
-" To close a buffer without changin the layout. Usefull when NERDTree is
-" opened
-map <leader>q :bp<bar>sp<bar>bn<bar>bd<CR>
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
-" Keys from NERDTree clashes with tmux-navigator so turn them off
-let g:NERDTreeMapJumpPrevSibling=""
-let g:NERDTreeMapJumpNextSibling=""
-map <leader>n :NERDTreeToggle<cr>
-let NERDTreeQuitOnOpen=1
 
 " For fast-tags
 augroup tags
