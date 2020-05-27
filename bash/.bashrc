@@ -19,13 +19,11 @@ alias ls='ls --color=auto'
 
 # Setup editor
 if ! type nvim > /dev/null 2>&1; then
-    alias vi=vim
     export EDITOR=vim
 else
-    alias vi=nvim
     export EDITOR=nvim
 fi
-
+alias vi=$EDITOR
 
 # Prompt completion for git
 if [ -f /usr/share/git/completion/git-prompt.sh ]; then
