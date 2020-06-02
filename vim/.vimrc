@@ -6,7 +6,6 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'justinmk/vim-dirvish'
-Plug 'mhinz/vim-grepper'
 Plug 'morhetz/gruvbox'
 Plug 'ndmitchell/ghcid', { 'rtp': 'plugins/nvim' }
 Plug 'neovimhaskell/haskell-vim'
