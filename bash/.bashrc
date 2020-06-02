@@ -25,20 +25,32 @@ else
 fi
 alias vi=$EDITOR
 
-# Prompt completion for git
+# For resize to work propertly
+shopt -s checkwinsize
+
+# Better git prompt
 if [ -f /usr/share/git/completion/git-prompt.sh ]; then
 	source /usr/share/git/completion/git-prompt.sh
 fi
 
-# Set better prompt with git
 if [ "$(type -t __git_ps1)" = 'function' ]; then
 	PS1='[\u@\h \W$(__git_ps1 " (%s)")]\$ '
 else
 	PS1='[\u@\h \W]\$ '
 fi
 
-# For resize to work propertly
-shopt -s checkwinsize
+# Git completion
+if [ -f /usr/share/git/completion/git-completion.bash ]; then
+	source /usr/share/git/completion/git-completion.bash
+fi
+
+# FZF completion
+if [ -f /usr/share/fzf/key-bindings.bash ]; then
+    source /usr/share/fzf/key-bindings.bash
+fi
+if [ -f /usr/share/fzf/completion.bash ]; then
+    source /usr/share/fzf/completion.bash
+fi
 
 # For nix
 if [ -e /home/jc/.nix-profile/etc/profile.d/nix.sh ]; then
