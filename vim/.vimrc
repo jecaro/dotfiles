@@ -92,12 +92,6 @@ au BufWritePost *.hs            silent !init-tags %
 au BufWritePost *.hsc           silent !init-tags %
 augroup END
 
-" For Grepper
-nnoremap <leader>g :Grepper -tool git<cr>
-nnoremap <leader>G :Grepper -tool ag<cr>
-nmap gs <plug>(GrepperOperator)
-xmap gs <plug>(GrepperOperator)
-
 " For ALE
 let g:ale_linters = { 'haskell': ['hlint'] }
 let g:ale_fixers = { 'haskell': ['Fourmolu'], 'elm': ['elm-format'] }
