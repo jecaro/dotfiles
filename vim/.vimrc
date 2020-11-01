@@ -33,6 +33,10 @@ set nu
 set relativenumber
 set colorcolumn=81
 
+" To have per project settings
+set exrc
+set secure
+
 " To be able to switch buffer without saving
 set hidden
 
