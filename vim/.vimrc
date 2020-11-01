@@ -109,3 +109,10 @@ function! Fourmolu(buffer) abort
     \}
 endfunction
 
+" Function to run ormolu on the buffer
+function! Ormolu(buffer) abort
+    return {
+    \   'command': 'ormolu -o -XTypeApplications -m inplace %t',
+    \   'read_temporary_file': 1,
+    \}
+endfunction
