@@ -8,6 +8,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'justinmk/vim-dirvish'
 Plug 'morhetz/gruvbox'
 Plug 'ndmitchell/ghcid', { 'rtp': 'plugins/nvim' }
+Plug 'neovim/nvim-lspconfig'
 Plug 'neovimhaskell/haskell-vim'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
@@ -97,7 +98,7 @@ au BufWritePost *.hsc           silent !init-tags %
 augroup END
 
 " For ALE
-let g:ale_linters = { 'haskell': ['hlint'] }
+let g:ale_linters = { 'haskell': [] }
 let g:ale_fixers = { 'haskell': ['Fourmolu'], 'elm': ['elm-format'] }
 let g:ale_fix_on_save = 1
 
@@ -116,3 +117,20 @@ function! Ormolu(buffer) abort
     \   'read_temporary_file': 1,
     \}
 endfunction
+
+" Activate Haskell Language Server
+lua <<EOF
+require'nvim_lsp'.hls.setup{}
+EOF
+
+" Keymaps recommanded in the documentation
+nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
+nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
+nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
+nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
+nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
+nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
+nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
+
