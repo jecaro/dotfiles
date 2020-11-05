@@ -9,12 +9,10 @@ Plug 'justinmk/vim-dirvish'
 Plug 'morhetz/gruvbox'
 Plug 'ndmitchell/ghcid', { 'rtp': 'plugins/nvim' }
 Plug 'neovim/nvim-lspconfig'
-Plug 'neovimhaskell/haskell-vim'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'vim-airline/vim-airline'
-Plug 'w0rp/ale'
 call plug#end()
 
 " Disable netrw
@@ -74,12 +72,6 @@ autocmd BufWinLeave * call clearmatches()
 " Set leader key as space
 let mapleader=" "
 
-" Menu for completion
-set wildchar=<Tab> wildmenu wildmode=full
-" F10 open the buffer menu
-set wildcharm=<C-Z>
-nnoremap <F10> :b <C-Z>
-
 " F5 delete all the trailing whitespaces
 nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 
@@ -90,17 +82,6 @@ let g:airline#extensions#tabline#enabled = 1
 
 " For vimgutter
 let updatetime=100
-
-" For fast-tags
-augroup tags
-au BufWritePost *.hs            silent !init-tags %
-au BufWritePost *.hsc           silent !init-tags %
-augroup END
-
-" For ALE
-let g:ale_linters = { 'haskell': [] }
-let g:ale_fixers = { 'haskell': ['Fourmolu'], 'elm': ['elm-format'] }
-let g:ale_fix_on_save = 1
 
 " Function to run fourmolu on the buffer
 function! Fourmolu(buffer) abort
@@ -118,19 +99,63 @@ function! Ormolu(buffer) abort
     \}
 endfunction
 
-" Activate Haskell Language Server
-lua <<EOF
-require'nvim_lsp'.hls.setup{}
+" Set completeopt to have a better completion experience
+" :help completeopt
+" menuone: popup even when there's only one match
+" noinsert: Do not insert text until a selection is made
+" noselect: Do not select, force user to select one from the menu
+set completeopt=menuone,noinsert,noselect
+
+" Activate language Servers
+lua << EOF
+  local nvim_lsp = require('nvim_lsp')
+
+  local on_attach = function(_, bufnr)
+      -- Activate completion
+      vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+      -- Mappings
+      local opts = { noremap=true, silent=true }
+      vim.api.nvim_buf_set_keymap(bufnr, 'n', '<c-]>',
+          '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+      vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K',
+          '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+      vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd',
+          '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+      vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD',
+          '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+      vim.api.nvim_buf_set_keymap(bufnr, 'n', 'lgD',
+          '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+      vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr',
+          '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+
+      vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>ca',
+          '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+      vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>cr',
+          '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+      vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>ls',
+          '<cmd>lua vim.lsp.util.show_line_diagnostics()<CR>', opts)
+
+      vim.api.nvim_buf_set_keymap(bufnr, 'i', '<C-s>',
+          '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+
+      -- Format on save just for Haskell
+      if vim.api.nvim_buf_get_option(0, 'filetype') == 'haskell' then
+          vim.api.nvim_command[[
+              autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()]]
+      end
+  end
+
+  nvim_lsp.elmls.setup({ on_attach = on_attach })
+  nvim_lsp.hls.setup({
+      on_attach = on_attach,
+          settings = {
+              haskell = {
+                  hlintOn = true,
+                  formattingProvider = "fourmolu"
+              }
+           }
+      })
+  nvim_lsp.vimls.setup({ on_attach = on_attach })
+
 EOF
-
-" Keymaps recommanded in the documentation
-nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
-nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
-nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
-nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
-nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
-nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
-nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
-nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
-nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
-
