@@ -8,7 +8,9 @@ Plug 'junegunn/fzf.vim'
 Plug 'justinmk/vim-dirvish'
 Plug 'morhetz/gruvbox'
 Plug 'ndmitchell/ghcid', { 'rtp': 'plugins/nvim' }
-Plug 'neovim/nvim-lspconfig'
+if has('nvim')
+    Plug 'neovim/nvim-lspconfig'
+endif
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
@@ -106,7 +108,8 @@ endfunction
 " noselect: Do not select, force user to select one from the menu
 set completeopt=menuone,noinsert,noselect
 
-" Activate language Servers
+" Activate language servers on neovim
+if has('nvim')
 lua << EOF
   local nvim_lsp = require('nvim_lsp')
 
@@ -159,3 +162,4 @@ lua << EOF
   nvim_lsp.vimls.setup({ on_attach = on_attach })
 
 EOF
+endif
