@@ -52,11 +52,6 @@ if [ -f /usr/share/fzf/completion.bash ]; then
     source /usr/share/fzf/completion.bash
 fi
 
-# For nix
-if [ -e /home/jc/.nix-profile/etc/profile.d/nix.sh ]; then
-    . /home/jc/.nix-profile/etc/profile.d/nix.sh;
-fi
-
 # My own scripts
 export PATH=$PATH:~/bin
 # For stack
