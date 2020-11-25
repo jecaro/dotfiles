@@ -85,6 +85,9 @@ let g:airline#extensions#tabline#enabled = 1
 " For vimgutter
 let updatetime=100
 
+" Disable tmux navigator when zooming the Vim pane
+let g:tmux_navigator_disable_when_zoomed = 1
+
 " Function to run fourmolu on the buffer
 function! Fourmolu(buffer) abort
     return {
