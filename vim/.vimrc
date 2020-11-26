@@ -107,6 +107,9 @@ function! Ormolu(buffer) abort
     \}
 endfunction
 
+" Add a column by the number to show hints
+set signcolumn=yes
+
 " Set completeopt to have a better completion experience
 " :help completeopt
 " menuone: popup even when there's only one match
