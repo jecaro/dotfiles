@@ -1,5 +1,6 @@
 " Plugins setup
 call plug#begin('~/.vim/plugged')
+Plug 'LnL7/vim-nix'
 Plug 'airblade/vim-gitgutter'
 Plug 'andys8/vim-elm-syntax'
 Plug 'christoomey/vim-tmux-navigator'
