@@ -46,7 +46,6 @@ export PATH=$PATH:~/bin
 # For stack
 export PATH=$PATH:~/.local/bin
 # On raspberry pi
-export PATH=$PATH:/opt/vc/bin
-# For node
-PATH="$HOME/.node_modules/bin:$PATH"
-export npm_config_prefix=~/.node_modules
+if [ -d /opt/vc/bin ]; then
+    export PATH=$PATH:/opt/vc/bin
+fi
