@@ -5,16 +5,6 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-# Setup locale
-if locale -a | grep ^en_US.UTF-8 > /dev/null; then
-	export LC_ALL=en_US.UTF-8
-elif locale -a | grep ^C.UTF-8 > /dev/null; then
-	export LC_ALL=C.UTF-8
-# For CentOS 3.10
-elif locale -a | grep ^en_US.utf8 > /dev/null; then
-	export LC_ALL=en_US.utf8
-fi
-
 alias ls='ls --color=auto'
 
 # Setup editor
