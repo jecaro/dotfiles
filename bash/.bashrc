@@ -13,7 +13,6 @@ if ! type nvim > /dev/null 2>&1; then
 else
     export EDITOR=nvim
 fi
-alias vi=$EDITOR
 
 # For resize to work propertly
 shopt -s checkwinsize
