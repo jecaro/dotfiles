@@ -29,12 +29,18 @@ if [ -f /usr/share/git/completion/git-completion.bash ]; then
 	source /usr/share/git/completion/git-completion.bash
 fi
 
-# FZF completion
-if [ -f /usr/share/fzf/key-bindings.bash ]; then
-    source /usr/share/fzf/key-bindings.bash
+# Get FZF share path on nixos
+if command -v fzf-share >/dev/null; then
+    FZF_SHARE=$(fzf-share)
+else
+    FZF_SHARE=/usr/share/fzf
 fi
-if [ -f /usr/share/fzf/completion.bash ]; then
-    source /usr/share/fzf/completion.bash
+# FZF completion
+if [ -f $FZF_SHARE/key-bindings.bash ]; then
+    source $FZF_SHARE/key-bindings.bash
+fi
+if [ -f $FZF_SHARE/completion.bash ]; then
+    source $FZF_SHARE/completion.bash
 fi
 
 # My own scripts
