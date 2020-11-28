@@ -7,14 +7,16 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'justinmk/vim-dirvish'
 Plug 'morhetz/gruvbox'
-Plug 'ndmitchell/ghcid', { 'rtp': 'plugins/nvim' }
-if has('nvim')
-    Plug 'neovim/nvim-lspconfig'
-endif
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'vim-airline/vim-airline'
+if has('nvim')
+    Plug 'ndmitchell/ghcid', { 'rtp': 'plugins/nvim' }
+endif
+if has('nvim-0.5.0')
+    Plug 'neovim/nvim-lspconfig'
+endif
 call plug#end()
 
 " Disable netrw
@@ -112,7 +114,7 @@ endfunction
 set completeopt=menuone,noinsert,noselect
 
 " Activate language servers on neovim
-if has('nvim')
+if has('nvim-0.5.0')
 lua << EOF
   local nvim_lsp = require('lspconfig')
 
