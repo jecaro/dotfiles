@@ -13,6 +13,11 @@ fi
 # For resize to work propertly
 shopt -s checkwinsize
 
+# Enable bash completion
+if [ -f /usr/share/bash-completion/bash_completion ]; then
+    source /usr/share/bash-completion/bash_completion
+fi
+
 # Get FZF share path on nixos
 if command -v fzf-share >/dev/null; then
     FZF_SHARE=$(fzf-share)
@@ -27,16 +32,10 @@ if [ -f $FZF_SHARE/completion.bash ]; then
     source $FZF_SHARE/completion.bash
 fi
 
-# Enable completion
-for bcfile in \
-    /usr/share/bash-completion/completions/* \
-    /etc/bash_completion.d/* \
-    ~/.nix-profile/share/bash-completion/completions/* \
-    ~/.nix-profile/etc/bash_completion.d/* ; do
-  source $bcfile 2> /dev/null
-done
-
 # Better git prompt
+if [ -f /usr/share/git/completion/git-prompt.sh ]; then
+    source /usr/share/git/completion/git-prompt.sh
+fi
 if [ "$(type -t __git_ps1)" = 'function' ]; then
 	PS1='[\u@\h \W$(__git_ps1 " (%s)")]\$ '
 else
