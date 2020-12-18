@@ -37,10 +37,6 @@ set nu
 set relativenumber
 set colorcolumn=81
 
-" To have per project settings
-set exrc
-set secure
-
 " To be able to switch buffer without saving
 set hidden
 
@@ -74,11 +70,11 @@ autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
 autocmd InsertLeave * match ExtraWhitespace /\s\+$/
 autocmd BufWinLeave * call clearmatches()
 
-" Set leader key as space
-let mapleader=" "
-
 " F5 delete all the trailing whitespaces
 nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
+
+" Set leader key as space
+let mapleader=" "
 
 " Airline configuration
 set laststatus=2
