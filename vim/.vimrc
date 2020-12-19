@@ -113,6 +113,8 @@ set signcolumn=yes
 " noselect: Do not select, force user to select one from the menu
 set completeopt=menuone,noinsert,noselect
 
+" Activate embedded syntax highlight in vimrc file
+let g:vimsyn_embed = 'l'
 " Activate language servers on neovim
 if has('nvim-0.5.0')
 lua << EOF
