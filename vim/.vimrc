@@ -17,6 +17,7 @@ if has('nvim')
 endif
 if has('nvim-0.5.0')
     Plug 'neovim/nvim-lspconfig'
+    Plug 'nvim-lua/completion-nvim'
 endif
 call plug#end()
 
@@ -87,6 +88,14 @@ let updatetime=100
 " Disable tmux navigator when zooming the Vim pane
 let g:tmux_navigator_disable_when_zoomed = 1
 
+" For completion-nvim
+
+" Set completeopt to have a better completion experience
+set completeopt=menuone,noinsert,noselect
+
+" Avoid showing message extra message when using completion
+set shortmess+=c
+
 " Function to run fourmolu on the buffer
 function! Fourmolu(buffer) abort
     return {
@@ -106,13 +115,6 @@ endfunction
 " Add a column by the number to show hints
 set signcolumn=yes
 
-" Set completeopt to have a better completion experience
-" :help completeopt
-" menuone: popup even when there's only one match
-" noinsert: Do not insert text until a selection is made
-" noselect: Do not select, force user to select one from the menu
-set completeopt=menuone,noinsert,noselect
-
 " Activate embedded syntax highlight in vimrc file
 let g:vimsyn_embed = 'l'
 " Activate language servers on neovim
@@ -122,7 +124,7 @@ lua << EOF
 
   local on_attach = function(client)
       -- Activate completion
-      vim.api.nvim_buf_set_option(0, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+      require'completion'.on_attach(client)
 
       -- Mappings
       local opts = { noremap=true }
