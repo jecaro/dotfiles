@@ -144,7 +144,7 @@ lua << EOF
       vim.api.nvim_buf_set_keymap(0, 'n', '<leader>cr',
           '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
       vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>ls',
-          '<cmd>lua vim.lsp.util.show_line_diagnostics()<CR>', opts)
+          '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
 
       vim.api.nvim_buf_set_keymap(0, 'i', '<C-s>',
           '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
