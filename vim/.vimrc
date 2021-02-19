@@ -18,6 +18,7 @@ endif
 if has('nvim-0.5.0')
     Plug 'neovim/nvim-lspconfig'
     Plug 'nvim-lua/completion-nvim'
+    Plug 'nvim-lua/lsp-status.nvim'
 endif
 call plug#end()
 
@@ -122,9 +123,23 @@ if has('nvim-0.5.0')
 lua << EOF
   local nvim_lsp = require('lspconfig')
 
+  local lsp_status = require('lsp-status')
+  lsp_status.register_progress()
+  lsp_status.config({
+      kind_labels = kind_labels,
+      indicator_errors = "×",
+      indicator_warnings = "!",
+      indicator_info = "i",
+      indicator_hint = "›",
+      -- the default is a wide codepoint which breaks absolute and relative
+      -- line counts if placed before airline's Z section
+      status_symbol = "",
+  })
+
   local on_attach = function(client)
       -- Activate completion
       require'completion'.on_attach(client)
+      lsp_status.on_attach(client)
 
       -- Mappings
       local opts = { noremap=true }
@@ -159,14 +174,26 @@ lua << EOF
   nvim_lsp.elmls.setup({ on_attach = on_attach })
   nvim_lsp.hls.setup({
       on_attach = on_attach,
-          settings = {
-              haskell = {
-                  hlintOn = true,
-                  formattingProvider = "fourmolu"
-              }
-           }
-      })
-  nvim_lsp.vimls.setup({ on_attach = on_attach })
+      settings = {
+          haskell = {
+              hlintOn = true,
+              formattingProvider = "fourmolu"
+          }
+       },
+       capabilities = lsp_status.capabilities
+  })
 
 EOF
 endif
+
+" Statusline
+function! LspStatus() abort
+  let status = luaeval('require("lsp-status").status()')
+  return trim(status)
+endfunction
+call airline#parts#define_function('lsp_status', 'LspStatus')
+call airline#parts#define_condition('lsp_status',
+            \ 'luaeval("#vim.lsp.buf_get_clients() > 0")')
+let g:airline_section_warning = airline#section#create_right(['lsp_status'])
+let g:airline#extensions#nvimlsp#enabled = 0
+
