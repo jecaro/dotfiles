@@ -39,7 +39,7 @@ _complete()
     return
   fi
 
-  HOSTS=$(cat .ssh/config | awk '/^Host / { print $2 }')
+  HOSTS=$(cat ~/.ssh/config | awk '/^Host / { print $2 }')
   COMPREPLY=($(compgen -W "$HOSTS" "${COMP_WORDS[1]}"))
 }
 
