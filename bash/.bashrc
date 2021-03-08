@@ -55,6 +55,9 @@ else
 	PS1='[\u@\h \W]\$ '
 fi
 
+# To copy closure with NIX
+export NIX_SSHOPTS="PATH=\$HOME/.nix-profile/bin:\$PATH"
+
 # My own scripts
 export PATH=$PATH:~/bin
 # For stack
