@@ -187,13 +187,15 @@ EOF
 endif
 
 " Statusline
-function! LspStatus() abort
-  let status = luaeval('require("lsp-status").status()')
-  return trim(status)
-endfunction
-call airline#parts#define_function('lsp_status', 'LspStatus')
-call airline#parts#define_condition('lsp_status',
-            \ 'luaeval("#vim.lsp.buf_get_clients() > 0")')
-let g:airline_section_warning = airline#section#create_right(['lsp_status'])
+if has('nvim-0.5.0')
+  function! LspStatus() abort
+    let status = luaeval('require("lsp-status").status()')
+    return trim(status)
+  endfunction
+  call airline#parts#define_function('lsp_status', 'LspStatus')
+  call airline#parts#define_condition('lsp_status',
+              \ 'luaeval("#vim.lsp.buf_get_clients() > 0")')
+  let g:airline_section_warning = airline#section#create_right(['lsp_status'])
+endif
 let g:airline#extensions#nvimlsp#enabled = 0
 
