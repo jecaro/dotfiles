@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-ssh -G $1 | awk '/^hostname / { print $2 }'
+ssh -tt -G $1 | awk '/^hostname / { print $2 }'
