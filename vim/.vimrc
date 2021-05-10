@@ -97,6 +97,11 @@ set completeopt=menuone,noinsert,noselect
 " Avoid showing message extra message when using completion
 set shortmess+=c
 
+" For FZF to make Ag command to search only in file content
+" https://github.com/junegunn/fzf.vim/issues/346#issuecomment-655446292
+command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>,
+    \fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
+
 " Function to run fourmolu on the buffer
 function! Fourmolu(buffer) abort
     return {
