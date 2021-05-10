@@ -32,7 +32,7 @@ if [ -f $FZF_SHARE/completion.bash ]; then
     source $FZF_SHARE/completion.bash
 fi
 
-# Completion for ssh_host.sh
+# Completion for ssh-host.sh
 _complete()
 {
   if [ "${#COMP_WORDS[@]}" != "2" ]; then
@@ -43,7 +43,7 @@ _complete()
   COMPREPLY=($(compgen -W "$HOSTS" "${COMP_WORDS[1]}"))
 }
 
-complete -F _complete ssh_host.sh
+complete -F _complete ssh-host.sh
 
 # Better git prompt
 if [ -f /usr/share/git/completion/git-prompt.sh ]; then
