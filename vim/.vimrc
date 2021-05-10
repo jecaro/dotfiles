@@ -8,6 +8,7 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'justinmk/vim-dirvish'
 Plug 'morhetz/gruvbox'
+Plug 'ojroques/vim-oscyank'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
@@ -97,7 +98,10 @@ set completeopt=menuone,noinsert,noselect
 " Avoid showing message extra message when using completion
 set shortmess+=c
 
-" For FZF to make Ag command to search only in file content
+" For vim-oscyank to copy the plus register in the system clipboard as well
+autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '+' | OSCYankReg + | endif
+
+" For FZF to make Ag to search only in file content
 " https://github.com/junegunn/fzf.vim/issues/346#issuecomment-655446292
 command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>,
     \fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
