@@ -2,15 +2,13 @@
     "height": 30,
     "modules-left": [ "sway/workspaces", "sway/mode" ],
     "modules-center": [ "sway/window" ],
-    "modules-right": [ "idle_inhibitor"
-                     , "cpu"
+    "modules-right": [ "cpu"
                      , "memory"
                      , "temperature"
                      , "backlight"
                      , "battery"
-                     , "custom/keyboard-layout"
                      , "pulseaudio"
-                     , "network"
+                     , "custom/keyboard-layout"
                      , "tray"
                      , "clock#date"
                      , "clock#time"
@@ -18,14 +16,6 @@
 
     "sway/mode": {
         "format": "<span style=\"italic\">{}</span>"
-    },
-
-    "idle_inhibitor": {
-        "format": "{icon}",
-        "format-icons": {
-            "activated": "",
-            "deactivated": ""
-        }
     },
 
     "tray": {
@@ -83,15 +73,6 @@
         "format-plugged": " {capacity}%",
         "format-alt": "{icon} {time}",
         "format-icons": ["", "", "", "", ""]
-    },
-
-    "network": {
-        "format-wifi": " {essid} ({signalStrength}%)",
-        "format-ethernet": " {ifname}: {ipaddr}/{cidr}",
-        "format-linked": " {ifname} (No IP)",
-        "format-disconnected": "⚠ Disconnected",
-        "format-alt": "{ifname}: {ipaddr}/{cidr}",
-        "tooltip": false
     },
 
     "pulseaudio": {
