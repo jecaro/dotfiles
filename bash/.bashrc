@@ -58,6 +58,9 @@ fi
 # To copy closure with NIX
 export NIX_SSHOPTS="PATH=\$HOME/.nix-profile/bin:\$PATH"
 
+# For ssh-agent
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+
 # My own scripts
 export PATH=$PATH:~/bin
 # For stack
