@@ -9,6 +9,7 @@
                      , "battery"
                      , "pulseaudio"
                      , "custom/keyboard-layout"
+                     , "idle_inhibitor"
                      , "tray"
                      , "clock#date"
                      , "clock#time"
@@ -16,6 +17,14 @@
 
     "sway/mode": {
         "format": "<span style=\"italic\">{}</span>"
+    },
+
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "",
+            "deactivated": ""
+        }
     },
 
     "tray": {
