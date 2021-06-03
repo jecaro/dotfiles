@@ -1,0 +1,92 @@
+[colors]
+accent = #fba922
+
+[bar/top]
+enable-ipc = true
+monitor = ${env:MONITOR:}
+width = 100%
+height = 30
+
+background = #333333
+foreground = #eee
+
+; spaces before first module and after last
+padding-left = 2
+; spaces between each module
+module-margin = 2
+
+font-0 = Cantarell:style=Regular:size=10;0
+font-1 = DejaVuSans:size=10;1
+font-2 = Font Awesome 5 Free Solid:size=8;1
+
+modules-left = stdin
+modules-center =
+modules-right = cpu memory xkeyboard backlight battery clock
+
+tray-position = right
+
+[module/backlight]
+type = internal/backlight
+card = amdgpu_bl0
+use-actual-brightness = true
+format = <ramp> <label>
+label = %percentage%%
+ramp-0 = 🌕
+ramp-1 = 🌔
+ramp-2 = 🌓
+ramp-3 = 🌒
+ramp-4 = 🌑
+
+[module/cpu]
+type = internal/cpu
+interval = 2
+format = <label>
+label =  %percentage%%
+
+
+[module/memory]
+type = internal/memory
+interval = 2
+format = <label>
+label =  %gb_used%
+
+[module/xkeyboard]
+type = internal/xkeyboard
+label-layout =  %name%
+
+[module/clock]
+type = internal/date
+interval = 5
+format =  <label>
+label = %date% %time%
+date = %d-%m-%y%
+
+; Optional time format
+time = %H:%M
+
+[module/battery]
+type = internal/battery
+
+full-at = 99
+poll-interval = 5
+time-format = %H:%M
+
+format-charging = <label-charging>
+format-discharging = <ramp-capacity> <label-discharging>
+
+label-charging =  %percentage%%
+label-discharging = %percentage%%
+label-full = 
+
+ramp-capacity-0 = 
+ramp-capacity-1 = 
+ramp-capacity-2 = 
+ramp-capacity-3 = 
+ramp-capacity-4 = 
+
+[module/stdin]
+type = custom/script
+tail = true
+exec = cat $STDINFIFO
+
+; vim:ft=dosini
