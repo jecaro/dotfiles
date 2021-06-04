@@ -101,9 +101,12 @@ import XMonad.Util.SpawnOnce (spawnOnce)
 
 myStartupHook :: X ()
 myStartupHook = do
+    -- X setup
+
+    -- The compositor
     spawnOnce "picom"
 
-    -- from xss-lock man page
+    -- Screensaver and locker
     spawnOnce "xset s 180"
     spawnOnce "xss-lock -- i3lock -n -f -c 000000"
 
@@ -113,6 +116,10 @@ myStartupHook = do
         "setxkbmap -layout fr,fr -variant nodeadkeys, \
         \-option caps:escape,grp:ctrls_toggle"
 
+    -- Monitor handling
+    spawnOnce "mons -a"
+
+    -- Systray
     spawnOnce "dunst"
     spawnOnce "nm-applet"
     spawnOnce "pasystray"
