@@ -114,7 +114,9 @@ myStartupHook = do
     spawnOnce "dunst"
     spawnOnce "nm-applet"
     spawnOnce "pasystray"
-    spawnOnce "redshift-gtk"
+    -- Location: Dol-de-Bretagne
+    -- geoclue2 doesn't work with redshift on nixos right now
+    spawnOnce "redshift-gtk -l 48.5417602:-1.742104"
     spawnOnce "udiskie -s"
 
     dynStatusBarStartup barStartup barCleanup
