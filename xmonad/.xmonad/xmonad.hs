@@ -3,6 +3,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 -- Inspired by https://github.com/altercation/dotfiles-tilingwm
+import Prelude hiding (log)
 
 import Control.Monad ((<=<))
 import Control.Monad.State (gets)
@@ -51,6 +52,7 @@ import XMonad (
     xK_k,
     xK_l,
     xK_m,
+    xK_n,
     xK_p,
     xK_s,
     xK_t,
@@ -200,6 +202,8 @@ myKeys XConfig{XMonad.modMask = modm} =
             , submap . M.fromList $
                 [ ((0, xK_t), namedScratchpadAction scratchpads "term")
                 , ((0, xK_p), namedScratchpadAction scratchpads "personal")
+                , ((0, xK_l), namedScratchpadAction scratchpads "log")
+                , ((0, xK_n), namedScratchpadAction scratchpads "notes")
                 , ((0, xK_w), namedScratchpadAction scratchpads "work")
                 ]
             )
@@ -261,8 +265,10 @@ myManageHook =
 
 scratchpads :: [NamedScratchpad]
 scratchpads =
-    [ NS "term" myTerminalWithTitle isTerminal doCenterFloat
+    [ NS "log" log isLog doFullFloat
+    , NS "notes" notes isNotes doFullFloat
     , NS "personal" personalTrello isPersonalTrello doFullFloat
+    , NS "term" myTerminalWithTitle isTerminal doCenterFloat
     , NS "work" workTrello isWorkTrello doFullFloat
     ]
   where
@@ -270,6 +276,10 @@ scratchpads =
     isPersonalTrello = appName =? "trello.com__b_0ElFr1SJ_personnel"
     workTrello = "google-chrome-stable --app=https://trello.com/b/yMm4ZBZq/boulot"
     isWorkTrello = appName =? "trello.com__b_yMm4ZBZq_boulot"
+    log = "google-chrome-stable --app=https://docs.google.com/document/d/1Hhk9JohRr2pkNTXSZGY0JKGJ_AJ5SQyauB4HA-iohmM"
+    isLog = appName =? "docs.google.com__document_d_1Hhk9JohRr2pkNTXSZGY0JKGJ_AJ5SQyauB4HA-iohmM"
+    notes = "google-chrome-stable --app=https://checkvist.com/checklists/792404"
+    isNotes = appName =? "checkvist.com__checklists_792404"
     myTerminalTitle = "term-scratchpad"
     myTerminalWithTitle = myTerminal <> " --title " <> myTerminalTitle
     isTerminal = title =? myTerminalTitle
