@@ -3,11 +3,12 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 -- Inspired by https://github.com/altercation/dotfiles-tilingwm
-import Prelude hiding (log)
 
 import Control.Monad ((<=<))
 import Control.Monad.State (gets)
+import Data.List (stripPrefix)
 import qualified Data.Map as M
+import Data.Maybe (catMaybes)
 import Data.Monoid (All)
 import Graphics.X11.ExtraTypes.XF86 (
     xF86XK_AudioLowerVolume,
@@ -92,12 +93,13 @@ import XMonad.Layout.WindowNavigation (
  )
 import qualified XMonad.StackSet as W
 import XMonad.Util.NamedScratchpad (
-    NamedScratchpad (..),
+    NamedScratchpad (NS),
     namedScratchpadAction,
     namedScratchpadManageHook,
  )
 import XMonad.Util.Run (spawnPipe)
 import XMonad.Util.SpawnOnce (spawnOnce)
+import Prelude hiding (log)
 
 myStartupHook :: X ()
 myStartupHook = do
@@ -270,23 +272,40 @@ myManageHook =
     namedScratchpadManageHook scratchpads
         <+> composeOne [appName =? "gnome-calculator" -?> doFloat]
 
+urlToAppName :: String -> Maybe String
+urlToAppName x = fmap slashToUnderscore . withTwoFstSlash <$> withoutHttps x
+  where
+    withoutHttps = stripPrefix "https://"
+    addSlashIn = uncurry $ (<>) . (<> "/")
+    withTwoFstSlash = addSlashIn . break (== '/')
+    slashToUnderscore '/' = '_'
+    slashToUnderscore c = c
+
+chromeNS :: [Char] -> [Char] -> Maybe NamedScratchpad
+chromeNS name url = mkNS <$> identifyApp
+  where
+    mkNS = flip (NS name chrome) doFullFloat
+    chrome = "google-chrome-stable --app=" <> url
+    identifyApp = (appName =?) <$> urlToAppName url
+
 scratchpads :: [NamedScratchpad]
 scratchpads =
-    [ NS "log" log isLog doFullFloat
-    , NS "notes" notes isNotes doFullFloat
-    , NS "personal" personalTrello isPersonalTrello doFullFloat
-    , NS "term" myTerminalWithTitle isTerminal doCenterFloat
-    , NS "work" workTrello isWorkTrello doFullFloat
-    ]
+    NS "term" myTerminalWithTitle isTerminal doCenterFloat :
+    catMaybes
+        [ chromeNS
+            "log"
+            "https://docs.google.com/document/d/1Hhk9JohRr2pkNTXSZGY0JKGJ_AJ5SQyauB4HA-iohmM"
+        , chromeNS
+            "notes"
+            "https://checkvist.com/checklists/792404"
+        , chromeNS
+            "personal"
+            "https://trello.com/b/0ElFr1SJ/personnel"
+        , chromeNS
+            "work"
+            "https://trello.com/b/yMm4ZBZq/boulot"
+        ]
   where
-    personalTrello = "google-chrome-stable --app=https://trello.com/b/0ElFr1SJ/personnel"
-    isPersonalTrello = appName =? "trello.com__b_0ElFr1SJ_personnel"
-    workTrello = "google-chrome-stable --app=https://trello.com/b/yMm4ZBZq/boulot"
-    isWorkTrello = appName =? "trello.com__b_yMm4ZBZq_boulot"
-    log = "google-chrome-stable --app=https://docs.google.com/document/d/1Hhk9JohRr2pkNTXSZGY0JKGJ_AJ5SQyauB4HA-iohmM"
-    isLog = appName =? "docs.google.com__document_d_1Hhk9JohRr2pkNTXSZGY0JKGJ_AJ5SQyauB4HA-iohmM"
-    notes = "google-chrome-stable --app=https://checkvist.com/checklists/792404"
-    isNotes = appName =? "checkvist.com__checklists_792404"
     myTerminalTitle = "term-scratchpad"
     myTerminalWithTitle = myTerminal <> " --title " <> myTerminalTitle
     isTerminal = title =? myTerminalTitle
