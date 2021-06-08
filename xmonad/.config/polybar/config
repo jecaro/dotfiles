@@ -4,7 +4,8 @@ accent = #fba922
 [bar/top]
 enable-ipc = true
 monitor = ${env:MONITOR:}
-width = 100%
+width = 100%:-10
+offset-x = 5
 height = 30
 
 background = #333333
@@ -21,7 +22,7 @@ font-2 = Font Awesome 5 Free Solid:size=8;1
 
 modules-left = stdin
 modules-center =
-modules-right = cpu memory xkeyboard backlight battery clock
+modules-right = cpu memory xkeyboard backlight pulseaudio battery clock
 
 tray-position = right
 
@@ -37,12 +38,26 @@ ramp-2 = 🌓
 ramp-3 = 🌒
 ramp-4 = 🌑
 
+[module/pulseaudio]
+type = internal/pulseaudio
+
+format-volume = <ramp-volume> <label-volume>
+
+label-muted =  %percentage%%
+label-muted-foreground = #666
+
+ramp-volume-0 = 
+ramp-volume-1 = 
+ramp-volume-2 = 
+
+; Right and Middle click
+click-right = pavucontrol
+
 [module/cpu]
 type = internal/cpu
 interval = 2
 format = <label>
 label =  %percentage%%
-
 
 [module/memory]
 type = internal/memory
@@ -76,7 +91,7 @@ format-discharging = <ramp-capacity> <label-discharging>
 
 label-charging =  %percentage%%
 label-discharging = %percentage%%
-label-full = 
+label-full =  %percentage%%
 
 ramp-capacity-0 = 
 ramp-capacity-1 = 
