@@ -12,6 +12,7 @@ import Data.Maybe (catMaybes)
 import Data.Monoid (All)
 import Graphics.X11.ExtraTypes.XF86 (
     xF86XK_AudioLowerVolume,
+    xF86XK_AudioMicMute,
     xF86XK_AudioMute,
     xF86XK_AudioRaiseVolume,
     xF86XK_MonBrightnessDown,
@@ -173,8 +174,7 @@ myLayout =
             , inactiveColor = myInactiveColor
             , activeBorderColor = myActiveColor
             , inactiveBorderColor = myInactiveColor
-            , -- TODO are they found
-              fontName = "xft:Cantarell:bold:size=10"
+            , fontName = "xft:Cantarell:bold:size=10"
             , decoHeight = 25
             }
 
@@ -200,9 +200,9 @@ myKeys XConfig{XMonad.modMask = modm} =
         , ((modm, xK_Escape), spawn "xset s activate")
         , -- Multimedia keys
           ((0, xF86XK_AudioMute), spawn "pactl set-sink-mute @DEFAULT_SINK@ toggle")
-        , ((0, xF86XK_AudioLowerVolume), spawn "pactl set-sink-volume @DEFAULT_SINK@ -10%")
-        , ((0, xF86XK_AudioRaiseVolume), spawn "pactl set-sink-volume @DEFAULT_SINK@ +10%")
-        , ((0, xF86XK_AudioMute), spawn "pactl set-sink-mute @DEFAULT_SINK@ toggle")
+        , ((0, xF86XK_AudioLowerVolume), spawn "pactl set-sink-volume @DEFAULT_SINK@ -5%")
+        , ((0, xF86XK_AudioRaiseVolume), spawn "pactl set-sink-volume @DEFAULT_SINK@ +5%")
+        , ((0, xF86XK_AudioMicMute), spawn "pactl set-source-mute @DEFAULT_SOURCE@ toggle")
         , ((0, xF86XK_MonBrightnessDown), spawn "brightnessctl set 5%-")
         , ((0, xF86XK_MonBrightnessUp), spawn "brightnessctl set 5%+")
         , -- Scratchpad
