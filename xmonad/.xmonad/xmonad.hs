@@ -115,9 +115,7 @@ myStartupHook = do
 
     spawnOnce "xsetroot -solid black -cursor_name left_ptr"
     spawnOnce "hsetroot -solid '#000000'"
-    spawnOnce
-        "setxkbmap -layout fr,fr -variant nodeadkeys, \
-        \-option caps:escape,grp:ctrls_toggle"
+    spawnOnce "setup-keyboard.sh"
 
     -- Monitor handling
     spawnOnce "mons -a"
