@@ -4,7 +4,7 @@
 
 -- Inspired by https://github.com/altercation/dotfiles-tilingwm
 
-import Control.Monad ((<=<))
+import Control.Monad (join, (<=<))
 import Control.Monad.State (gets)
 import Data.List (stripPrefix)
 import qualified Data.Map as M
@@ -57,6 +57,7 @@ import XMonad (
     xK_m,
     xK_n,
     xK_p,
+    xK_r,
     xK_s,
     xK_t,
     xK_u,
@@ -69,6 +70,7 @@ import XMonad (
  )
 import XMonad.Actions.CopyWindow (copyToAll, killAllOtherCopies)
 import XMonad.Actions.Submap (submap)
+import XMonad.Actions.WorkspaceNames (renameWorkspace, workspaceNamesPP)
 import XMonad.Config.Azerty (azertyKeys)
 import XMonad.Config.Prime (Event, X)
 import XMonad.Hooks.DynamicBars (dynStatusBarEventHook, dynStatusBarStartup, multiPP)
@@ -93,6 +95,7 @@ import XMonad.Layout.WindowNavigation (
     Navigate (..),
     windowNavigation,
  )
+import XMonad.Prompt (XPConfig (..), XPPosition (..))
 import qualified XMonad.StackSet as W
 import XMonad.Util.NamedScratchpad (
     NamedScratchpad (NS),
@@ -137,6 +140,21 @@ myHandleEventHook =
     fullscreenEventHook
         <+> dynStatusBarEventHook barStartup barCleanup
 
+myActiveColor :: String
+myActiveColor = "#4c7899"
+
+myInactiveColor :: String
+myInactiveColor = "#333333"
+
+myForegroundColor :: String
+myForegroundColor = "#eeeeee"
+
+myBoldFont :: String
+myBoldFont = "xft:Cantarell:bold:size=10"
+
+myRegularFont :: String
+myRegularFont = "xft:Cantarell:regular:size=10"
+
 myLayout =
     avoidStruts . windowNavigation . withTopBar $
         myTabbed ||| myResizableTall ||| myThreeColMid
@@ -155,9 +173,6 @@ myLayout =
     withSpaces = spacingRaw False (Border 5 0 0 0) True (Border 5 5 5 5) True
     withScreenGaps = gaps [(U, 10), (L, 5), (R, 5)]
 
-    myActiveColor = "#4c7899"
-    myInactiveColor = "#333333"
-
     -- The top bar to show the current window
     topBar =
         tabBar
@@ -173,14 +188,12 @@ myLayout =
             , inactiveColor = myInactiveColor
             , activeBorderColor = myActiveColor
             , inactiveBorderColor = myInactiveColor
-            , fontName = "xft:Cantarell:bold:size=10"
+            , fontName = myBoldFont
             , decoHeight = 25
             }
 
 barStartup :: ScreenId -> IO Handle
-barStartup (S s) = do
-    putStrLn $ polybar s
-    spawnPipe $ polybar s
+barStartup (S s) = spawnPipe $ polybar s
   where
     polybar n =
         "~/.config/polybar/polybar-start-monitor.sh $(" <> monitor (n + 1) <> ")"
@@ -188,8 +201,7 @@ barStartup (S s) = do
         "mons | grep enabled | awk '{ print$2 }' | sed -n " <> show n <> "p"
 
 barCleanup :: IO ()
-barCleanup = do
-    spawn "pkill polybar"
+barCleanup = spawn "pkill polybar"
 
 myKeys :: XConfig l -> M.Map (KeyMask, KeySym) (X ())
 myKeys XConfig{XMonad.modMask = modm} =
@@ -245,6 +257,8 @@ myKeys XConfig{XMonad.modMask = modm} =
         , ((modm .|. controlMask, xK_j), sendMessage $ pullGroup D)
         , ((modm .|. controlMask, xK_m), withFocused (sendMessage . MergeAll))
         , ((modm .|. controlMask, xK_u), withFocused (sendMessage . UnMerge))
+        , -- Rename workspace
+          ((modm .|. shiftMask, xK_r), renameWorkspace myXPConfig)
         ]
   where
     toggleFloat = ifFloating sink float
@@ -263,6 +277,16 @@ myKeys XConfig{XMonad.modMask = modm} =
 
     stick = const (windows copyToAll) <=< float
     unstick = const killAllOtherCopies <=< sink
+
+    myXPConfig =
+        def
+            { font = myRegularFont
+            , bgColor = myInactiveColor
+            , fgColor = myForegroundColor
+            , position = Top
+            , promptBorderWidth = 0
+            , height = 30
+            }
 
 myTerminal :: String
 myTerminal = "alacritty"
@@ -316,9 +340,9 @@ main = do
         def
             { borderWidth = 0
             , handleEventHook = myHandleEventHook
-            , keys = azertyKeys <+> myKeys <+> keys def
+            , keys = myKeys <+> azertyKeys <+> keys def
             , layoutHook = myLayout
-            , logHook = multiPP def def
+            , logHook = uncurry multiPP . join (,) =<< workspaceNamesPP def
             , manageHook = myManageHook
             , modMask = mod4Mask
             , startupHook = myStartupHook
