@@ -191,6 +191,7 @@ lua << EOF
        },
        capabilities = lsp_status.capabilities
   })
+  nvim_lsp.ccls.setup({ on_attach = on_attach })
 
 EOF
 endif
