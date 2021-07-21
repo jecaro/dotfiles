@@ -65,6 +65,7 @@ set ignorecase
 set smartcase
 " Turns search highlighting on
 set hlsearch
+
 " Highlight end of line
 highlight ExtraWhitespace ctermbg=red guibg=red
 match ExtraWhitespace /\s\+$/
@@ -75,6 +76,13 @@ autocmd BufWinLeave * call clearmatches()
 
 " F5 delete all the trailing whitespaces
 nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
+
+" Highlight yanked text
+if has('nvim-0.5.0')
+    autocmd TextYankPost * lua vim.highlight.on_yank {
+        \higroup="IncSearch", timeout=150, on_visual=true
+        \}
+endif
 
 " Set leader key as space
 let mapleader=" "
