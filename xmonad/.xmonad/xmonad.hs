@@ -14,6 +14,7 @@ import Graphics.X11.ExtraTypes.XF86 (
     xF86XK_AudioLowerVolume,
     xF86XK_AudioMicMute,
     xF86XK_AudioMute,
+    xF86XK_AudioPlay,
     xF86XK_AudioRaiseVolume,
     xF86XK_MonBrightnessDown,
     xF86XK_MonBrightnessUp,
@@ -201,6 +202,7 @@ myKeys XConfig{XMonad.modMask = modm} =
         , ((0, xF86XK_AudioLowerVolume), spawn "pactl set-sink-volume @DEFAULT_SINK@ -5%")
         , ((0, xF86XK_AudioRaiseVolume), spawn "pactl set-sink-volume @DEFAULT_SINK@ +5%")
         , ((0, xF86XK_AudioMicMute), spawn "pactl set-source-mute @DEFAULT_SOURCE@ toggle")
+        , ((0, xF86XK_AudioPlay), spawn "playerctl play-pause")
         , ((0, xF86XK_MonBrightnessDown), spawn "brightnessctl set 5%-")
         , ((0, xF86XK_MonBrightnessUp), spawn "brightnessctl set 5%+")
         , -- Scratchpad
