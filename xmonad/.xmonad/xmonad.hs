@@ -11,11 +11,15 @@ import qualified Data.Map as M
 import Data.Maybe (catMaybes)
 import Data.Monoid (All)
 import Graphics.X11.ExtraTypes.XF86 (
+    xF86XK_AudioForward,
     xF86XK_AudioLowerVolume,
     xF86XK_AudioMicMute,
     xF86XK_AudioMute,
+    xF86XK_AudioNext,
     xF86XK_AudioPlay,
+    xF86XK_AudioPrev,
     xF86XK_AudioRaiseVolume,
+    xF86XK_AudioRewind,
     xF86XK_MonBrightnessDown,
     xF86XK_MonBrightnessUp,
  )
@@ -124,6 +128,10 @@ myStartupHook = do
     -- Monitor handling
     spawnOnce "mons -a"
 
+    -- Player daemon. Make the multimedia keys work on the media player with the
+    -- most recent activity
+    spawnOnce "playerctld"
+
     -- Systray
     spawnOnce "dunst"
     spawnOnce "nm-applet"
@@ -211,10 +219,14 @@ myKeys XConfig{XMonad.modMask = modm} =
         , ((modm, xK_Escape), spawn "xset s activate")
         , -- Multimedia keys
           ((0, xF86XK_AudioMute), spawn "pactl set-sink-mute @DEFAULT_SINK@ toggle")
+        , ((0, xF86XK_AudioForward), spawn "playerctl position 5+")
         , ((0, xF86XK_AudioLowerVolume), spawn "pactl set-sink-volume @DEFAULT_SINK@ -5%")
-        , ((0, xF86XK_AudioRaiseVolume), spawn "pactl set-sink-volume @DEFAULT_SINK@ +5%")
         , ((0, xF86XK_AudioMicMute), spawn "pactl set-source-mute @DEFAULT_SOURCE@ toggle")
+        , ((0, xF86XK_AudioNext), spawn "playerctl next")
         , ((0, xF86XK_AudioPlay), spawn "playerctl play-pause")
+        , ((0, xF86XK_AudioPrev), spawn "playerctl previous")
+        , ((0, xF86XK_AudioRaiseVolume), spawn "pactl set-sink-volume @DEFAULT_SINK@ +5%")
+        , ((0, xF86XK_AudioRewind), spawn "playerctl position 5-")
         , ((0, xF86XK_MonBrightnessDown), spawn "brightnessctl set 5%-")
         , ((0, xF86XK_MonBrightnessUp), spawn "brightnessctl set 5%+")
         , -- Scratchpad
