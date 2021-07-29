@@ -21,10 +21,16 @@ font-1 = DejaVuSans:size=10;1
 font-2 = Font Awesome 5 Free Solid:size=8;1
 
 modules-left = stdin
-modules-center =
+modules-center = playerctl
 modules-right = cpu memory xkeyboard backlight pulseaudio battery clock
 
 tray-position = right
+
+[module/playerctl]
+type = custom/script
+interval = 2
+exec = echo  %{A1:playerctl previous:}%{A} %{A1:playerctl play-pause:}$(playerctl status 2>/dev/null | grep Playing >/dev/null && echo '' || echo '')%{A} %{A1:playerctl next:}%{A} $(playerctl metadata -f '{{artist}} - {{title}}' 2>/dev/null | sed -E 's/(.{30}).+/\1.../')
+exec-if = playerctl metadata -f {{playerName}} 2>/dev/null > /dev/null
 
 [module/backlight]
 type = internal/backlight
