@@ -20,6 +20,7 @@ import Graphics.X11.ExtraTypes.XF86 (
     xF86XK_AudioPrev,
     xF86XK_AudioRaiseVolume,
     xF86XK_AudioRewind,
+    xF86XK_Display,
     xF86XK_MonBrightnessDown,
     xF86XK_MonBrightnessUp,
  )
@@ -232,6 +233,8 @@ myKeys XConfig{XMonad.modMask = modm} =
         , ((0, xF86XK_AudioRewind), spawn "playerctl position 5-")
         , ((0, xF86XK_MonBrightnessDown), spawn "brightnessctl set 5%-")
         , ((0, xF86XK_MonBrightnessUp), spawn "brightnessctl set 5%+")
+        , ((0, xF86XK_Display), spawn "mons -n right")
+        , ((shiftMask, xF86XK_Display), spawn "mons -n left")
         , -- Scratchpad
 
             ( (modm, xK_s)
