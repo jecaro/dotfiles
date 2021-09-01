@@ -81,7 +81,7 @@ import XMonad.Config.Prime (Event, X)
 import XMonad.Hooks.DynamicBars (dynStatusBarEventHook, dynStatusBarStartup, multiPP)
 import XMonad.Hooks.EwmhDesktops (ewmh, fullscreenEventHook)
 import XMonad.Hooks.ManageDocks (avoidStruts, docks)
-import XMonad.Hooks.ManageHelpers (composeOne, doCenterFloat, doFullFloat, (-?>))
+import XMonad.Hooks.ManageHelpers (composeOne, doCenterFloat, doRectFloat, (-?>))
 import XMonad.Layout.Decoration (Theme (..), shrinkText)
 import XMonad.Layout.Gaps (gaps)
 import XMonad.Layout.NoFrillsDecoration (noFrillsDeco)
@@ -326,7 +326,8 @@ urlToAppName x = fmap slashToUnderscore . withTwoFstSlash <$> withoutHttps x
 chromeNS :: [Char] -> [Char] -> Maybe NamedScratchpad
 chromeNS name url = mkNS <$> identifyApp
   where
-    mkNS = flip (NS name chrome) doFullFloat
+    mkNS = flip (NS name chrome) $ doRectFloat verticalCenterRect
+    verticalCenterRect = W.RationalRect (1 / 4) 0 (1 / 2) 1
     chrome = "google-chrome-stable --app=" <> url
     identifyApp = (appName =?) <$> urlToAppName url
 
