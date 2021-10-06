@@ -34,7 +34,7 @@ exec-if = playerctl metadata -f {{playerName}} 2>/dev/null > /dev/null
 
 [module/backlight]
 type = internal/backlight
-card = amdgpu_bl0
+card = ${env:BACKLIGHT_CARD:}
 use-actual-brightness = true
 format = <ramp> <label>
 label = %percentage%%
