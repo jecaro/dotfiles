@@ -1,6 +1,7 @@
 {-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE OverloadedStrings #-}
+{-# OPTIONS_GHC -Wno-missing-signatures #-}
 
 -- Inspired by https://github.com/altercation/dotfiles-tilingwm
 
@@ -94,7 +95,6 @@ import XMonad.Layout.Simplest (Simplest (..))
 import XMonad.Layout.Spacing (Border (..), spacingRaw)
 import XMonad.Layout.SubLayouts (GroupMsg (..), pullGroup, subLayout)
 import XMonad.Layout.Tabbed (addTabs, tabbed)
-import XMonad.Layout.ThreeColumns (ThreeCol (ThreeColMid))
 import XMonad.Layout.WindowNavigation (
     Direction2D (..),
     Navigate (..),
@@ -169,15 +169,12 @@ myRegularFont = "xft:Cantarell:regular:size=10"
 
 myLayout =
     avoidStruts . windowNavigation . withTopBar $
-        myTabbed ||| myResizableTall ||| myThreeColMid
+        myTabbed ||| myResizableTall
   where
     myTabbed = withName "Tabs" . withScreenGaps $ tabbed shrinkText tabBar
     myResizableTall =
         withName "Tall" . withTabs . withSpaces $
             ResizableTall 1 (3 / 100) (1 / 2) []
-    myThreeColMid =
-        withName "ThreeCol" . withTabs . withSpaces $
-            ThreeColMid 1 (3 / 100) (1 / 2)
 
     withName x = renamed [Replace x]
     withTopBar = renamed [CutWordsLeft 1] . noFrillsDeco shrinkText topBar
