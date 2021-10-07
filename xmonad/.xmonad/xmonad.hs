@@ -25,6 +25,7 @@ import Graphics.X11.ExtraTypes.XF86 (
     xF86XK_MonBrightnessDown,
     xF86XK_MonBrightnessUp,
  )
+import System.Exit (exitSuccess)
 import System.IO (Handle)
 import XMonad (
     KeyMask,
@@ -40,6 +41,7 @@ import XMonad (
     def,
     doFloat,
     float,
+    io,
     mod4Mask,
     sendMessage,
     shiftMask,
@@ -63,6 +65,7 @@ import XMonad (
     xK_m,
     xK_n,
     xK_p,
+    xK_q,
     xK_r,
     xK_s,
     xK_t,
@@ -274,8 +277,18 @@ myKeys XConfig{XMonad.modMask = modm} =
         , ((modm .|. controlMask, xK_u), withFocused (sendMessage . UnMerge))
         , -- Rename workspace
           ((modm .|. shiftMask, xK_r), renameWorkspace myXPConfig)
+        , -- Quit xmonad
+          ((modm .|. shiftMask, xK_q), exitXMonad)
         ]
   where
+    -- mons and redshift are respawned when logout/login. All other startup
+    -- processes are either killed with xmonad or allow only one instance
+    -- running (playerctld).
+    exitXMonad = do
+        spawn "pkill mons"
+        spawn "pkill redshift"
+        io exitSuccess
+
     toggleFloat = ifFloating sink float
     toggleStick = ifFloating unstick stick
 
