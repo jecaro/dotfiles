@@ -114,6 +114,10 @@ autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '+' | OS
 " https://github.com/junegunn/fzf.vim/issues/346#issuecomment-655446292
 command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>,
     \fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
+" https://github.com/junegunn/fzf.vim/issues/714
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1,
+  \   fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
 
 " Function to run fourmolu on the buffer
 function! Fourmolu(buffer) abort
