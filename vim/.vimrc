@@ -53,6 +53,9 @@ set tabstop=4
 set expandtab
 " One tab makes 4 spaces
 set shiftwidth=4
+" When shifting lines, round the indentation to the nearest multiple of
+" shiftwidth
+set shiftround
 
 " Turn on syntax highlight
 syntax on
