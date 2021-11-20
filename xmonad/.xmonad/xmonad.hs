@@ -79,7 +79,7 @@ import XMonad (
  )
 import XMonad.Actions.CopyWindow (copyToAll, killAllOtherCopies)
 import XMonad.Actions.Submap (submap)
-import XMonad.Actions.WorkspaceNames (renameWorkspace, workspaceNamesPP)
+import XMonad.Actions.WorkspaceNames (renameWorkspace, setWorkspaceName, workspaceNamesPP)
 import XMonad.Config.Azerty (azertyKeys)
 import XMonad.Config.Prime (Event, X)
 import XMonad.Hooks.DynamicBars (dynStatusBarEventHook, dynStatusBarStartup, multiPP)
@@ -116,6 +116,11 @@ import Prelude hiding (log)
 
 myStartupHook :: X ()
 myStartupHook = do
+    -- Workspace name configuration
+    setWorkspaceName "1" "chat"
+    setWorkspaceName "2" "work"
+    setWorkspaceName "3" "www"
+
     -- X setup
 
     -- The compositor
