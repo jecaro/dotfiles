@@ -160,6 +160,7 @@ lua << EOF
       -- line counts if placed before airline's Z section
       status_symbol = "",
   })
+  local_settings = require('local_settings')
 
   local on_attach = function(client)
       -- Activate completion
@@ -189,26 +190,20 @@ lua << EOF
       vim.api.nvim_buf_set_keymap(0, 'i', '<C-s>',
           '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
 
-      -- Format on save just for Haskell
-      if vim.api.nvim_buf_get_option(0, 'filetype') == 'haskell' then
-          vim.api.nvim_command[[
-              autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()]]
-      end
+      vim.api.nvim_command[[
+          autocmd BufWritePre <buffer> lua local_settings.format()]]
   end
 
   nvim_lsp.elmls.setup({ on_attach = on_attach })
   nvim_lsp.hls.setup({
       on_attach = on_attach,
-      settings = {
-          haskell = {
-              hlintOn = true,
-              formattingProvider = "fourmolu"
-          }
-       },
-       capabilities = lsp_status.capabilities
+      capabilities = lsp_status.capabilities,
+      on_new_config = local_settings.hls_on_new_config
   })
   nvim_lsp.ccls.setup({ on_attach = on_attach })
 
+  vim.api.nvim_command[[
+      autocmd BufNewFile,BufRead * lua local_settings.apply()]]
 EOF
 endif
 
@@ -224,4 +219,3 @@ if has('nvim-0.5.0')
   let g:airline_section_warning = airline#section#create_right(['lsp_status'])
 endif
 let g:airline#extensions#nvimlsp#enabled = 0
-
