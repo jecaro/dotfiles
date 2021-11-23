@@ -146,7 +146,7 @@ let g:vimsyn_embed = 'l'
 " Activate language servers on neovim
 if has('nvim-0.5.0')
 lua << EOF
-  local nvim_lsp = require('lspconfig')
+  local lspconfig = require('lspconfig')
 
   local lsp_status = require('lsp-status')
   lsp_status.register_progress()
@@ -194,13 +194,13 @@ lua << EOF
           autocmd BufWritePre <buffer> lua local_settings.format()]]
   end
 
-  nvim_lsp.elmls.setup({ on_attach = on_attach })
-  nvim_lsp.hls.setup({
+  lspconfig.elmls.setup({ on_attach = on_attach })
+  lspconfig.hls.setup({
       on_attach = on_attach,
       capabilities = lsp_status.capabilities,
       on_new_config = local_settings.hls_on_new_config
   })
-  nvim_lsp.ccls.setup({ on_attach = on_attach })
+  lspconfig.ccls.setup({ on_attach = on_attach })
 
   vim.api.nvim_command[[
       autocmd BufNewFile,BufRead * lua local_settings.apply()]]
