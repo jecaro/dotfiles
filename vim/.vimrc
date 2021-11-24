@@ -2,7 +2,6 @@
 call plug#begin('~/.vim/plugged')
 Plug 'LnL7/vim-nix'
 Plug 'airblade/vim-gitgutter'
-Plug 'andys8/vim-elm-syntax'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
@@ -194,13 +193,14 @@ lua << EOF
           autocmd BufWritePre <buffer> lua local_settings.format()]]
   end
 
-  lspconfig.elmls.setup({ on_attach = on_attach })
-  lspconfig.hls.setup({
-      on_attach = on_attach,
-      capabilities = lsp_status.capabilities,
-      on_new_config = local_settings.hls_on_new_config
-  })
-  lspconfig.ccls.setup({ on_attach = on_attach })
+  local servers = { 'ccls', 'hls' }
+  for _, lsp in ipairs(servers) do
+      lspconfig[lsp].setup {
+          on_attach = on_attach,
+          capabilities = lsp_status.capabilities,
+          on_new_config = local_settings.on_new_config(lsp)
+          }
+  end
 
   vim.api.nvim_command[[
       autocmd BufNewFile,BufRead * lua local_settings.apply()]]

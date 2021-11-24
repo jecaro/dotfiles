@@ -29,11 +29,13 @@ function M.format()
     end
 end
 
-function M.hls_on_new_config(new_config)
+function M.on_new_config(lsp)
     local name = basename(vim.fn.getcwd())
 
-    if repos[name] and repos[name].hls_on_new_config then
-        return repos[name].hls_on_new_config(new_config)
+    if repos[name] and repos[name].on_new_config then
+        return (function (new_config)
+                    return repos[name].on_new_config(lsp, new_config)
+                end)
     end
 end
 
