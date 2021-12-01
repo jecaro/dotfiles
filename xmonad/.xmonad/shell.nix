@@ -1,4 +1,4 @@
-{ pkgs ? import <nixos-unstable> {} }:
+{ pkgs ? import <nixpkgs> {} }:
 let
   project = import ./. { inherit pkgs; };
 in
