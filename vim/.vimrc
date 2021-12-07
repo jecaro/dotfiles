@@ -18,9 +18,14 @@ if has('nvim')
     Plug 'ndmitchell/ghcid', { 'rtp': 'plugins/nvim' }
 endif
 if has('nvim-0.5.0')
+    " Theses two are for Typescript
+    Plug 'jose-elias-alvarez/null-ls.nvim'
+    Plug 'jose-elias-alvarez/nvim-lsp-ts-utils'
     Plug 'neovim/nvim-lspconfig'
     Plug 'nvim-lua/completion-nvim'
     Plug 'nvim-lua/lsp-status.nvim'
+    " This one is used by nvim-lsp-ts-utils
+    Plug 'nvim-lua/plenary.nvim'
 endif
 call plug#end()
 
@@ -194,10 +199,40 @@ lua << EOF
           autocmd BufWritePre <buffer> lua local_settings.format()]]
   end
 
-  local servers = { 'ccls', 'hls' }
-  for _, lsp in ipairs(servers) do
+  -- Typescript configuration
+  local ts_utils = require("nvim-lsp-ts-utils")
+  on_attach_tsserver = function(client)
+      client.resolved_capabilities.document_formatting = false
+      client.resolved_capabilities.document_range_formatting = false
+      ts_utils.setup({});
+      ts_utils.setup_client(client)
+      on_attach(client)
+  end
+
+  -- null-ls is also used for Typescript
+  local null_ls = require("null-ls")
+  null_ls.config({
+      debug = false,
+      sources = {
+          null_ls.builtins.diagnostics.eslint_d,
+          null_ls.builtins.code_actions.eslint_d,
+          null_ls.builtins.formatting.eslint_d
+      },
+  })
+
+  local servers = {
+      ccls = { on_attach = on_attach },
+      hls = { on_attach = on_attach },
+      ['null-ls'] = { on_attach = on_attach },
+      tsserver = {
+          on_attach = on_attach_tsserver,
+          init_options = ts_utils.init_options
+      }
+  }
+  for lsp, fcts in pairs(servers) do
       lspconfig[lsp].setup {
-          on_attach = on_attach,
+          init_options = fcts.init_options,
+          on_attach = fcts.on_attach,
           capabilities = lsp_status.capabilities,
           on_new_config = local_settings.on_new_config(lsp)
           }
