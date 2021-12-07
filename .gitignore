@@ -1,6 +1,6 @@
-#
 /ssh-agent/.config/systemd/user/default.target.wants/
 /vim/.vim/plugged
+/xmonad/.xmonad/dist-newstyle/
 /xmonad/.xmonad/prompt-history
 /xmonad/.xmonad/xmonad-x86_64-linux
 /xmonad/.xmonad/xmonad.errors
