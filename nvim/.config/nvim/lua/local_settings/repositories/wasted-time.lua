@@ -1,1 +1,1 @@
-return require('local_settings.personnal')
+return require('local_settings.personal')
