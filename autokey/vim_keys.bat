@@ -1,1 +1,0 @@
-start E:\JCQ\SOFTS\AutoHotkey_1.1.32.00\AutoHotkeyU64.exe %~dp0vim_keys.ahk
