@@ -46,12 +46,14 @@ _complete()
 complete -F _complete ssh-host.sh
 
 # Better git prompt
-GIT_SHARE=$(nix eval --raw nixos.git)
+GIT_SHARE=$(nix eval --raw nixos.git 2> /dev/null)
 if [ $? -ne 0 ]; then
-    GIT_SHARE=/usr/share/git
+    PATH_TO_GIT_PROMPT=/usr/share/git/completion
+else
+    PATH_TO_GIT_PROMPT=$GIT_SHARE/share/bash-completion/completions
 fi;
-if [ -f $GIT_SHARE/share/bash-completion/completions/git-prompt.sh ]; then
-    source $GIT_SHARE/share/bash-completion/completions/git-prompt.sh
+if [ -f $PATH_TO_GIT_PROMPT/git-prompt.sh ]; then
+    source $PATH_TO_GIT_PROMPT/git-prompt.sh
 fi
 if [ "$(type -t __git_ps1)" = 'function' ]; then
 	PS1='[\u@\h \W$(__git_ps1 " (%s)")]\$ '
