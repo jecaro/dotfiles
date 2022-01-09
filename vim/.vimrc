@@ -18,12 +18,16 @@ if has('nvim')
     Plug 'ndmitchell/ghcid', { 'rtp': 'plugins/nvim' }
 endif
 if has('nvim-0.5.0')
+    " For completion
+    Plug 'hrsh7th/cmp-nvim-lsp'
+    Plug 'hrsh7th/nvim-cmp'
+    " For vsnip users
+    Plug 'hrsh7th/cmp-vsnip'
+    Plug 'hrsh7th/vim-vsnip'
     " Theses two are for Typescript
     Plug 'jose-elias-alvarez/null-ls.nvim'
     Plug 'jose-elias-alvarez/nvim-lsp-ts-utils'
     Plug 'neovim/nvim-lspconfig'
-    Plug 'nvim-lua/completion-nvim'
-    Plug 'nvim-lua/lsp-status.nvim'
     " This one is used by nvim-lsp-ts-utils
     Plug 'nvim-lua/plenary.nvim'
 endif
@@ -153,47 +157,63 @@ if has('nvim-0.5.0')
 lua << EOF
   local lspconfig = require('lspconfig')
 
-  local lsp_status = require('lsp-status')
-  lsp_status.register_progress()
-  lsp_status.config({
-      kind_labels = kind_labels,
-      indicator_errors = "×",
-      indicator_warnings = "!",
-      indicator_info = "i",
-      indicator_hint = "›",
-      -- the default is a wide codepoint which breaks absolute and relative
-      -- line counts if placed before airline's Z section
-      status_symbol = "",
-  })
   local_settings = require('local_settings')
 
-  local on_attach = function(client)
-      -- Activate completion
-      require'completion'.on_attach(client)
-      lsp_status.on_attach(client)
+  -- Setup nvim-cmp
+  local cmp = require'cmp'
 
-      -- Mappings
-      local opts = { noremap=true }
-      vim.api.nvim_buf_set_keymap(0, 'n', '<c-]>',
-          '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-      vim.api.nvim_buf_set_keymap(0, 'n', 'K',
-          '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-      vim.api.nvim_buf_set_keymap(0, 'n', 'gd',
-          '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-      vim.api.nvim_buf_set_keymap(0, 'n', 'gD',
-          '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-      vim.api.nvim_buf_set_keymap(0, 'n', 'gr',
-          '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+  cmp.setup({
+    snippet = {
+      -- REQUIRED - you must specify a snippet engine
+      expand = function(args)
+        vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users
+      end,
+    },
+    mapping = {
+      ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
+      ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
+      ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
+      ['<C-y>'] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
+      ['<C-e>'] = cmp.mapping({
+        i = cmp.mapping.abort(),
+        c = cmp.mapping.close(),
+      }),
+      -- Accept currently selected item. If none selected, `select` first item.
+      -- Set `select` to `false` to only confirm explicitly selected items.
+      ['<CR>'] = cmp.mapping.confirm({ select = false }),
+    },
+    sources = cmp.config.sources({
+      { name = 'nvim_lsp' },
+      { name = 'vsnip' }, -- For vsnip users.
+    }, {
+      { name = 'buffer' },
+    })
+  })
 
-      vim.api.nvim_buf_set_keymap(0, 'n', '<leader>ca',
-          '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-      vim.api.nvim_buf_set_keymap(0, 'n', '<leader>cr',
-          '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-      vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>ls',
-          '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+  local on_attach = function(client, bufnr)
+      local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
 
-      vim.api.nvim_buf_set_keymap(0, 'i', '<C-s>',
-          '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+      -- Mappings.
+      local opts = { noremap=true, silent=true }
+
+      -- See `:help vim.lsp.*` for documentation on any of the below functions
+      buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+      buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+      buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+      buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+      buf_set_keymap('n', '<C-s>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+      buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
+      buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+      buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+      buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+      buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+      buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+      buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+      buf_set_keymap('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
+      buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
+      buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
+      buf_set_keymap('n', '<space>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
+      buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 
       vim.api.nvim_command[[
           autocmd BufWritePre <buffer> lua local_settings.format()]]
@@ -204,54 +224,44 @@ lua << EOF
   on_attach_tsserver = function(client)
       client.resolved_capabilities.document_formatting = false
       client.resolved_capabilities.document_range_formatting = false
-      ts_utils.setup({});
+      ts_utils.setup({ auto_inlay_hints = false });
       ts_utils.setup_client(client)
       on_attach(client)
   end
 
   -- null-ls is also used for Typescript
   local null_ls = require("null-ls")
-  null_ls.config({
+  null_ls.setup({
       debug = false,
       sources = {
           null_ls.builtins.diagnostics.eslint_d,
           null_ls.builtins.code_actions.eslint_d,
           null_ls.builtins.formatting.eslint_d
       },
+      on_attach = on_attach,
   })
 
   local servers = {
       ccls = { on_attach = on_attach },
       hls = { on_attach = on_attach },
-      ['null-ls'] = { on_attach = on_attach },
       tsserver = {
           on_attach = on_attach_tsserver,
           init_options = ts_utils.init_options
       }
   }
+  local capabilities = require('cmp_nvim_lsp').update_capabilities(
+      vim.lsp.protocol.make_client_capabilities())
+
   for lsp, fcts in pairs(servers) do
-      lspconfig[lsp].setup {
+      lspconfig[lsp].setup({
           init_options = fcts.init_options,
           on_attach = fcts.on_attach,
-          capabilities = lsp_status.capabilities,
+          capabilities = capabilities,
           on_new_config = local_settings.on_new_config(lsp)
-          }
+      })
   end
 
   vim.api.nvim_command[[
       autocmd BufNewFile,BufRead * lua local_settings.apply()]]
 EOF
 endif
-
-" Statusline
-if has('nvim-0.5.0')
-  function! LspStatus() abort
-    let status = luaeval('require("lsp-status").status()')
-    return trim(status)
-  endfunction
-  call airline#parts#define_function('lsp_status', 'LspStatus')
-  call airline#parts#define_condition('lsp_status',
-              \ 'luaeval("#vim.lsp.buf_get_clients() > 0")')
-  let g:airline_section_warning = airline#section#create_right(['lsp_status'])
-endif
-let g:airline#extensions#nvimlsp#enabled = 0
