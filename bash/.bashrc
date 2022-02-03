@@ -46,11 +46,12 @@ _complete()
 complete -F _complete ssh-host.sh
 
 # Better git prompt
-GIT_SHARE=$(nix eval --raw nixos.git 2> /dev/null)
-if [ $? -ne 0 ]; then
-    PATH_TO_GIT_PROMPT=/usr/share/git/completion
+PATH_TO_GIT=$(readlink $(which git))
+GIT_STORE_PATH=${PATH_TO_GIT%/*/*}
+if [[ "$GIT_STORE_PATH" == *store* ]]; then
+    PATH_TO_GIT_PROMPT=$GIT_STORE_PATH/share/bash-completion/completions
 else
-    PATH_TO_GIT_PROMPT=$GIT_SHARE/share/bash-completion/completions
+    PATH_TO_GIT_PROMPT=/usr/share/git/completion
 fi;
 if [ -f $PATH_TO_GIT_PROMPT/git-prompt.sh ]; then
     source $PATH_TO_GIT_PROMPT/git-prompt.sh
@@ -66,6 +67,9 @@ export NIX_SSHOPTS="PATH=\$HOME/.nix-profile/bin:\$PATH"
 
 # For ssh-agent
 export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+
+# Default provider for vagrant
+export VAGRANT_DEFAULT_PROVIDER="libvirt"
 
 # My own scripts
 export PATH=$PATH:~/bin
