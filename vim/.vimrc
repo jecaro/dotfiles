@@ -6,6 +6,7 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'justinmk/vim-dirvish'
+Plug 'justinmk/vim-sneak'
 Plug 'morhetz/gruvbox'
 Plug 'ojroques/vim-oscyank'
 Plug 'tpope/vim-commentary'
