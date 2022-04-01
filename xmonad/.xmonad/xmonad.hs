@@ -117,9 +117,8 @@ import Prelude hiding (log)
 myStartupHook :: X ()
 myStartupHook = do
     -- Workspace name configuration
-    setWorkspaceName "1" "chat"
+    setWorkspaceName "1" "www"
     setWorkspaceName "2" "work"
-    setWorkspaceName "3" "www"
 
     -- X setup
 
