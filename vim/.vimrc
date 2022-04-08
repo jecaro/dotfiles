@@ -182,9 +182,7 @@ lua << EOF
       }),
       -- Accept currently selected item. If none selected, `select` first item.
       -- Set `select` to `false` to only confirm explicitly selected items.
-      -- issue with macro
-      -- https://github.com/hrsh7th/nvim-cmp/issues/800
-      -- ['<CR>'] = cmp.mapping.confirm({ select = false }),
+      ['<CR>'] = cmp.mapping.confirm({ select = false }),
     },
     sources = cmp.config.sources({
       { name = 'nvim_lsp' },
