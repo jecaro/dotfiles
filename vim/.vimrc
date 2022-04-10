@@ -3,11 +3,11 @@ call plug#begin('~/.vim/plugged')
 Plug 'LnL7/vim-nix'
 Plug 'airblade/vim-gitgutter'
 Plug 'christoomey/vim-tmux-navigator'
+Plug 'joshdick/onedark.vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'justinmk/vim-dirvish'
 Plug 'justinmk/vim-sneak'
-Plug 'morhetz/gruvbox'
 Plug 'ojroques/vim-oscyank'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-eunuch'
@@ -44,7 +44,10 @@ let g:dirvish_mode = ':sort ,^.*[\/],'
 autocmd FileType dirvish silent keeppatterns g@\v/\.[^\/]+/?$@d _
 
 " A good color scheme
-colorscheme gruvbox
+colorscheme onedark
+if (has('nvim'))
+    set termguicolors
+endif
 set background=dark
 
 " Show line numbers
