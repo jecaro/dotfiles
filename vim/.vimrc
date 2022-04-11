@@ -37,6 +37,10 @@ call plug#end()
 
 " Disable netrw
 let g:loaded_netrwPlugin = 1
+" From https://github.com/justinmk/config/blob/15011c1e5a9104e1d842bf5fffdb820b00eea5d4/.config/nvim/lua/plugins.lua#L17
+" Make gx work
+nnoremap <silent> <Plug>NetrwBrowseX :call netrw#BrowseX(expand((exists("g:netrw_gx")? g:netrw_gx : '<cfile>')),netrw#CheckIfRemote())<CR>
+nmap gx <Plug>NetrwBrowseX
 " For dirvish
 " Sort directory first then files
 let g:dirvish_mode = ':sort ,^.*[\/],'
