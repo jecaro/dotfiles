@@ -44,6 +44,8 @@ nmap gx <Plug>NetrwBrowseX
 " For dirvish
 " Sort directory first then files
 let g:dirvish_mode = ':sort ,^.*[\/],'
+" For sneak
+let g:sneak#label = 1
 " Hide hidden files
 autocmd FileType dirvish silent keeppatterns g@\v/\.[^\/]+/?$@d _
 
