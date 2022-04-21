@@ -107,6 +107,7 @@ if has('nvim-0.5.0')
         \higroup="IncSearch", timeout=150, on_visual=true
         \}
 endif
+nnoremap <silent> <Esc> <Esc>:noh<CR>
 
 " Set leader key as space
 let mapleader=" "
