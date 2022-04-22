@@ -18,8 +18,6 @@ Plug 'tpope/vim-unimpaired'
 Plug 'vim-airline/vim-airline'
 if has('nvim')
     Plug 'ndmitchell/ghcid', { 'rtp': 'plugins/nvim' }
-endif
-if has('nvim-0.5.0')
     " For completion
     Plug 'hrsh7th/cmp-nvim-lsp'
     Plug 'hrsh7th/nvim-cmp'
@@ -102,7 +100,7 @@ autocmd BufWinLeave * call clearmatches()
 nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 
 " Highlight yanked text
-if has('nvim-0.5.0')
+if has('nvim')
     autocmd TextYankPost * lua vim.highlight.on_yank {
         \higroup="IncSearch", timeout=150, on_visual=true
         \}
@@ -149,7 +147,7 @@ set signcolumn=yes
 " Activate embedded syntax highlight in vimrc file
 let g:vimsyn_embed = 'l'
 " Activate language servers on neovim
-if has('nvim-0.5.0')
+if has('nvim')
 lua << EOF
   local lspconfig = require('lspconfig')
 
