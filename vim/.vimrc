@@ -143,22 +143,6 @@ command! -bang -nargs=* Rg
   \ call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1,
   \   fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
 
-" Function to run fourmolu on the buffer
-function! Fourmolu(buffer) abort
-    return {
-    \   'command': 'fourmolu -o -XTypeApplications -m inplace %t',
-    \   'read_temporary_file': 1,
-    \}
-endfunction
-
-" Function to run ormolu on the buffer
-function! Ormolu(buffer) abort
-    return {
-    \   'command': 'ormolu -o -XTypeApplications -m inplace %t',
-    \   'read_temporary_file': 1,
-    \}
-endfunction
-
 " Add a column by the number to show hints
 set signcolumn=yes
 
