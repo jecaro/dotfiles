@@ -86,6 +86,7 @@ import XMonad.Hooks.DynamicBars (dynStatusBarEventHook, dynStatusBarStartup, mul
 import XMonad.Hooks.EwmhDesktops (ewmh, fullscreenEventHook)
 import XMonad.Hooks.ManageDocks (avoidStruts, docks)
 import XMonad.Hooks.ManageHelpers (composeOne, doCenterFloat, doRectFloat, (-?>))
+import XMonad.Hooks.Place (inBounds, placeHook, underMouse, withGaps)
 import XMonad.Layout.Decoration (Theme (..), shrinkText)
 import XMonad.Layout.Gaps (gaps)
 import XMonad.Layout.NoFrillsDecoration (noFrillsDeco)
@@ -326,6 +327,7 @@ myTerminal = "alacritty"
 myManageHook :: ManageHook
 myManageHook =
     namedScratchpadManageHook scratchpads
+        <+> placeHook (inBounds (withGaps (5, 5, 5, 5) $ underMouse (0, 0)))
         <+> composeOne [appName =? "gnome-calculator" -?> doFloat]
 
 urlToAppName :: String -> Maybe String
