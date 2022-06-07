@@ -5,12 +5,11 @@
 
 -- Inspired by https://github.com/altercation/dotfiles-tilingwm
 
-import Control.Monad (join, (<=<))
+import Control.Monad ((<=<))
 import Control.Monad.State (gets)
 import Data.List (stripPrefix)
 import qualified Data.Map as M
 import Data.Maybe (catMaybes)
-import Data.Monoid (All)
 import Graphics.X11.ExtraTypes.XF86 (
     xF86XK_AudioForward,
     xF86XK_AudioLowerVolume,
@@ -26,7 +25,6 @@ import Graphics.X11.ExtraTypes.XF86 (
     xF86XK_MonBrightnessUp,
  )
 import System.Exit (exitSuccess)
-import System.IO (Handle)
 import XMonad (
     KeyMask,
     KeySym,
@@ -79,14 +77,13 @@ import XMonad (
  )
 import XMonad.Actions.CopyWindow (copyToAll, killAllOtherCopies)
 import XMonad.Actions.Submap (submap)
-import XMonad.Actions.WorkspaceNames (renameWorkspace, setWorkspaceName, workspaceNamesPP)
+import XMonad.Actions.WorkspaceNames (renameWorkspace, setWorkspaceName)
 import XMonad.Config.Azerty (azertyKeys)
-import XMonad.Config.Prime (Event, X)
-import XMonad.Hooks.DynamicBars (dynStatusBarEventHook, dynStatusBarStartup, multiPP)
-import XMonad.Hooks.EwmhDesktops (ewmh, fullscreenEventHook)
-import XMonad.Hooks.ManageDocks (avoidStruts, docks)
+import XMonad.Config.Prime (X)
+import XMonad.Hooks.EwmhDesktops (ewmh, ewmhFullscreen)
 import XMonad.Hooks.ManageHelpers (composeOne, doCenterFloat, doRectFloat, (-?>))
 import XMonad.Hooks.Place (inBounds, placeHook, underMouse, withGaps)
+import XMonad.Hooks.StatusBar (StatusBarConfig, dynamicEasySBs, statusBarProp)
 import XMonad.Layout.Decoration (Theme (..), shrinkText)
 import XMonad.Layout.Gaps (gaps)
 import XMonad.Layout.NoFrillsDecoration (noFrillsDeco)
@@ -111,7 +108,6 @@ import XMonad.Util.NamedScratchpad (
     namedScratchpadAction,
     namedScratchpadManageHook,
  )
-import XMonad.Util.Run (spawnPipe)
 import XMonad.Util.SpawnOnce (spawnOnce)
 import Prelude hiding (log)
 
@@ -153,13 +149,6 @@ myStartupHook = do
     spawnOnce "redshift-gtk -l 48.5417602:-1.742104"
     spawnOnce "udiskie -s"
 
-    dynStatusBarStartup barStartup barCleanup
-
-myHandleEventHook :: Event -> X All
-myHandleEventHook =
-    fullscreenEventHook
-        <+> dynStatusBarEventHook barStartup barCleanup
-
 myActiveColor :: String
 myActiveColor = "#4c7899"
 
@@ -175,9 +164,7 @@ myBoldFont = "xft:Cantarell:bold:size=10"
 myRegularFont :: String
 myRegularFont = "xft:Cantarell:regular:size=10"
 
-myLayout =
-    avoidStruts . windowNavigation . withTopBar $
-        myTabbed ||| myResizableTall
+myLayout = windowNavigation . withTopBar $ myTabbed ||| myResizableTall
   where
     myTabbed = withName "Tabs" . withScreenGaps $ tabbed shrinkText tabBar
     myResizableTall =
@@ -209,16 +196,19 @@ myLayout =
             , decoHeight = 25
             }
 
-barStartup :: ScreenId -> IO Handle
-barStartup (S s) = spawnPipe $ polybar s
+barSpawner :: ScreenId -> IO StatusBarConfig
+barSpawner (S s) = pure $ statusBarProp (polybar s) (pure def)
   where
     polybar n =
-        "~/.config/polybar/polybar-start-monitor.sh $(" <> monitor (n + 1) <> ")"
+        withVar "MONITOR" (monitor $ n + 1)
+            <> " "
+            <> withVar "BACKLIGHT_CARD" backlightCard
+            <> " "
+            <> "polybar top"
+    withVar name cmd = name <> "=$(" <> cmd <> ")"
+    backlightCard = "ls -1 /sys/class/backlight/"
     monitor n =
         "mons | grep enabled | awk '{ print$2 }' | sed -n " <> show n <> "p"
-
-barCleanup :: IO ()
-barCleanup = spawn "pkill polybar"
 
 myKeys :: XConfig l -> M.Map (KeyMask, KeySym) (X ())
 myKeys XConfig{XMonad.modMask = modm} =
@@ -370,14 +360,12 @@ scratchpads =
     isTerminal = title =? myTerminalTitle
 
 main :: IO ()
-main = do
-    xmonad . ewmh . docks $
+main =
+    xmonad . ewmhFullscreen . ewmh . dynamicEasySBs barSpawner $
         def
             { borderWidth = 0
-            , handleEventHook = myHandleEventHook
             , keys = myKeys <+> azertyKeys <+> keys def
             , layoutHook = myLayout
-            , logHook = uncurry multiPP . join (,) =<< workspaceNamesPP def
             , manageHook = myManageHook
             , modMask = mod4Mask
             , startupHook = myStartupHook
